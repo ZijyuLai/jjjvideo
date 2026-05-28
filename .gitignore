@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+output/
+media/
+*.egg-info/
+.eggs/
+dist/
+build/
+.env
+*.mp4
+*.gif

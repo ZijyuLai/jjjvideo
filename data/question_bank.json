@@ -1,0 +1,76 @@
+{
+  "chapter14": {
+    "title": "Chapter 14 - Radar Applications & Antenna Theory",
+    "questions": {
+      "14.17": {
+        "id": "14.17",
+        "title": "Doppler Radar - Doppler Filter Bandwidth",
+        "title_cn": "多普勒雷达 - 多普勒滤波器通带宽度",
+        "description": "A Doppler radar is used to detect targets moving at a certain velocity. Determine the required passband width of the Doppler filter.",
+        "description_cn": "多普勒雷达用于探测一定速度的目标，求多普勒滤波器所需通带宽度。",
+        "parameters": {
+          "f0": {"value": 10e9, "unit": "Hz", "description": "Radar carrier frequency (雷达载波频率)"},
+          "v_min": {"value": 10, "unit": "m/s", "description": "Minimum target velocity (最小目标速度)"},
+          "v_max": {"value": 100, "unit": "m/s", "description": "Maximum target velocity (最大目标速度)"},
+          "c": {"value": 3e8, "unit": "m/s", "description": "Speed of light (光速)"}
+        },
+        "steps": [
+          {
+            "id": 1,
+            "title": "Doppler Shift Formula",
+            "title_cn": "多普勒频移公式",
+            "formula": "f_d = \\frac{2v \\cdot f_0}{c}",
+            "formula_cn": "f_d = 2vf_0 / c",
+            "explanation": "The Doppler frequency shift for a radar signal reflected from a moving target is twice the product of target velocity and carrier frequency, divided by the speed of light. The factor of 2 accounts for the round-trip path.",
+            "explanation_cn": "雷达信号从运动目标反射时的多普勒频移等于目标速度与载波频率乘积的两倍除以光速。系数2是因为信号往返路径。"
+          },
+          {
+            "id": 2,
+            "title": "Calculate Minimum Doppler Shift",
+            "title_cn": "计算最小多普勒频移",
+            "formula": "f_{d,min} = \\frac{2 \\, v_{min} \\, f_0}{c} = \\frac{20 \\times 10^{10}}{3 \\times 10^8}",
+            "formula_cn": "f_d,min = 2 * v_min * f_0 / c",
+            "result": "f_{d,min} = 666.67 \\text{ Hz}",
+            "result_cn": "f_d,min = 666.67 Hz",
+            "explanation": "Substituting v_min=10 m/s, f_0=10 GHz, c=3e8 m/s.",
+            "explanation_cn": "代入 v_min=10 m/s, f_0=10 GHz, c=3×10^8 m/s"
+          },
+          {
+            "id": 3,
+            "title": "Calculate Maximum Doppler Shift",
+            "title_cn": "计算最大多普勒频移",
+            "formula": "f_{d,max} = \\frac{2 \\, v_{max} \\, f_0}{c} = \\frac{200 \\times 10^{10}}{3 \\times 10^8}",
+            "formula_cn": "f_d,max = 2 * v_max * f_0 / c",
+            "result": "f_{d,max} = 6666.67 \\text{ Hz}",
+            "result_cn": "f_d,max = 6666.67 Hz",
+            "explanation": "Substituting v_max=100 m/s into the Doppler formula.",
+            "explanation_cn": "代入 v_max=100 m/s 计算"
+          },
+          {
+            "id": 4,
+            "title": "Determine Filter Bandwidth",
+            "title_cn": "确定滤波器带宽",
+            "formula": "B = f_{d,max} - f_{d,min} = 6666.67 - 666.67",
+            "formula_cn": "B = f_d,max - f_d,min = 6666.67 - 666.67",
+            "result": "B = 6000 \\text{ Hz} = 6 \\text{ kHz}",
+            "result_cn": "B = 6000 Hz = 6 kHz",
+            "explanation": "The required Doppler filter bandwidth covers the range from minimum to maximum Doppler shift corresponding to the target velocity range.",
+            "explanation_cn": "多普勒滤波器所需带宽覆盖目标速度范围对应的最小到最大多普勒频移范围。"
+          }
+        ],
+        "key_concepts": [
+          "Doppler effect in radar systems",
+          "Round-trip Doppler shift factor of 2",
+          "Relationship between target velocity and frequency shift",
+          "Filter bandwidth design"
+        ],
+        "key_concepts_cn": [
+          "雷达系统中的多普勒效应",
+          "往返多普勒频移因子为2",
+          "目标速度与频移的关系",
+          "滤波器带宽设计"
+        ]
+      }
+    }
+  }
+}
