@@ -2,6 +2,7 @@
 Manim scene for 习题14.17 - Doppler Radar Doppler Filter Bandwidth
 Generates a step-by-step derivation animation with formula rendering.
 """
+import scenes.patch_svg  # noqa: F401 — fix fraction lines before MathTex
 from manim import *
 import json
 import os

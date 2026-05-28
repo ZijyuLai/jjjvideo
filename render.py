@@ -11,6 +11,7 @@ import os
 SCENES = {
     "doppler": ("scenes/doppler_radar.py", "DopplerRadarScene"),
     "doppler_formula": ("scenes/doppler_radar.py", "DopplerFormulaShowcase"),
+    "monopole": ("scenes/monopole_directivity.py", "MonopoleDirectivityScene"),
 }
 
 QUALITY_FLAGS = {

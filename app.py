@@ -59,6 +59,7 @@ def render_scene():
     scene_map = {
         "doppler": ("scenes/doppler_radar.py", "DopplerRadarScene"),
         "doppler_formula": ("scenes/doppler_radar.py", "DopplerFormulaShowcase"),
+        "monopole": ("scenes/monopole_directivity.py", "MonopoleDirectivityScene"),
     }
 
     quality_map = {"low": "-ql", "medium": "-qm", "high": "-qh", "4k": "-qk"}
