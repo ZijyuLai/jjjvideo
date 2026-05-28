@@ -117,19 +117,20 @@ def make_scene_class(json_path, class_name):
             if not summary_formula and steps:
                 summary_formula = steps[-1].get("formula", "")
 
+            anchor = result_title  # anchor for positioning concepts below
             if summary_formula:
                 final = fit(MathTex(summary_formula, font_size=40, color=HIGHLIGHT_COLOR, tex_template=TEX))
                 final.next_to(result_title, DOWN, buff=0.6)
                 final_box = SurroundingRectangle(final, color=ACCENT_ORANGE, buff=0.3, corner_radius=0.15, stroke_width=2.5)
                 self.play(Write(result_title), Write(final, run_time=1.5), Create(final_box))
+                anchor = final_box
             else:
                 self.play(Write(result_title))
 
             concepts = q.get("key_concepts_cn", q.get("key_concepts", []))
             if concepts:
                 concepts_title = Text("关键概念", font_size=28, color=ACCENT_BLUE, weight=BOLD)
-                concepts_title.next_to(result_title, DOWN, buff=1.5 if not summary_formula else 0)
-                concepts_title.shift(DOWN * 0.8)
+                concepts_title.next_to(anchor, DOWN, buff=0.8)
 
                 concept_group = VGroup()
                 for concept in concepts:
