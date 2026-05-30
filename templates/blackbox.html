@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>习题讲解视频生成器</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            padding: 32px 0 16px;
+            text-align: center;
+            background: linear-gradient(180deg, #0f1029 0%, #0a0a1a 100%);
+            border-bottom: 1px solid rgba(79,195,247,0.15);
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 14px;
+            color: #7a8ba8;
+        }
+        .main {
+            width: 100%;
+            max-width: 680px;
+            padding: 40px 24px;
+        }
+        .card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .field { margin-bottom: 24px; }
+        .field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .upload-zone {
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: #4fc3f7;
+            background: rgba(79,195,247,0.05);
+        }
+        .upload-zone .icon { font-size: 36px; margin-bottom: 8px; }
+        .upload-zone .hint { font-size: 13px; color: #64748b; }
+        .upload-zone .filename {
+            font-size: 14px;
+            color: #4fc3f7;
+            margin-top: 8px;
+            display: none;
+        }
+        .upload-zone input { display: none; }
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 15px;
+            appearance: none;
+            cursor: pointer;
+        }
+        select:focus { outline: none; border-color: #4fc3f7; }
+        .select-wrap {
+            position: relative;
+        }
+        .select-wrap::after {
+            content: '▾';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4fc3f7, #0288d1);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,195,247,0.3); }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        /* Processing overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10,10,26,0.92);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .overlay.active { display: flex; }
+        .spinner {
+            width: 64px; height: 64px;
+            border: 3px solid #1e293b;
+            border-top-color: #4fc3f7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 24px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .overlay .status {
+            font-size: 16px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .overlay .progress-text {
+            font-size: 13px;
+            color: #475569;
+            font-family: monospace;
+        }
+        .progress-bar {
+            width: 280px;
+            height: 4px;
+            background: #1e293b;
+            border-radius: 2px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4fc3f7, #81c784);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+        /* Result */
+        .result {
+            display: none;
+            margin-top: 24px;
+        }
+        .result.active { display: block; }
+        .result .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .result .q-label {
+            font-size: 13px;
+            color: #4fc3f7;
+            background: rgba(79,195,247,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .result .q-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .result video {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #1e293b;
+            background: #000;
+        }
+        .result .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            border-color: #4fc3f7;
+            color: #4fc3f7;
+        }
+        .btn-download {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #81c784, #4caf50);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .btn-download:hover { box-shadow: 0 4px 16px rgba(129,199,132,0.3); }
+        .log-area {
+            margin-top: 24px;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 16px;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 12px;
+            color: #475569;
+            max-height: 160px;
+            overflow-y: auto;
+            display: none;
+        }
+        .log-area.active { display: block; }
+        .log-line { margin-bottom: 4px; }
+        .log-line .time { color: #334155; }
+        .log-line .ok { color: #81c784; }
+        .log-line .info { color: #4fc3f7; }
+        .footer {
+            margin-top: auto;
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>习题讲解视频生成器</h1>
+        <p>上传题目文档，输入题号，自动生成推导讲解视频</p>
+    </div>
+
+    <div class="main">
+        <div class="card">
+            <div class="field">
+                <label>题目文档</label>
+                <div class="upload-zone" id="uploadZone">
+                    <div class="icon">📄</div>
+                    <div class="hint">点击或拖拽上传 Word 文档（.docx）</div>
+                    <div class="filename" id="fileName"></div>
+                    <input type="file" id="fileInput" accept=".docx,.doc,.pdf">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>题号</label>
+                <div class="select-wrap">
+                    <select id="questionSelect">
+                        <option value="">— 请选择题目 —</option>
+                        {% for qid, title in titles.items() | sort %}
+                        <option value="{{ qid }}">{{ qid }} {{ title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" id="generateBtn" disabled>生成讲解视频</button>
+        </div>
+
+        <div class="log-area" id="logArea"></div>
+
+        <div class="result" id="result">
+            <div class="title-bar">
+                <div>
+                    <span class="q-label" id="resultLabel"></span>
+                    <div class="q-title" id="resultTitle"></div>
+                </div>
+            </div>
+            <video id="videoPlayer" controls></video>
+            <div class="actions">
+                <button class="btn-secondary" id="newBtn">生成新视频</button>
+                <a class="btn-download" id="downloadBtn" href="#" download>下载视频</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="spinner"></div>
+        <div class="status" id="overlayStatus">正在解析文档...</div>
+        <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText"></div>
+    </div>
+
+    <div class="footer">Microwave & Smart Antenna — Digital Answer System</div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadZone = document.getElementById('uploadZone');
+        const fileName = document.getElementById('fileName');
+        const questionSelect = document.getElementById('questionSelect');
+        const generateBtn = document.getElementById('generateBtn');
+        const overlay = document.getElementById('overlay');
+        const overlayStatus = document.getElementById('overlayStatus');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const logArea = document.getElementById('logArea');
+        const result = document.getElementById('result');
+        const resultLabel = document.getElementById('resultLabel');
+        const resultTitle = document.getElementById('resultTitle');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const newBtn = document.getElementById('newBtn');
+
+        // File upload
+        uploadZone.addEventListener('click', () => fileInput.click());
+        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+        uploadZone.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateFileDisplay();
+            }
+        });
+        fileInput.addEventListener('change', updateFileDisplay);
+
+        function updateFileDisplay() {
+            if (fileInput.files.length) {
+                fileName.textContent = fileInput.files[0].name;
+                fileName.style.display = 'block';
+            }
+            checkReady();
+        }
+
+        questionSelect.addEventListener('change', checkReady);
+
+        function checkReady() {
+            generateBtn.disabled = !questionSelect.value;
+        }
+
+        // Generate
+        generateBtn.addEventListener('click', async () => {
+            const qnum = questionSelect.value;
+            if (!qnum) return;
+
+            // Show overlay
+            overlay.classList.add('active');
+            result.classList.remove('active');
+            logArea.classList.add('active');
+            logArea.innerHTML = '';
+            generateBtn.disabled = true;
+
+            const stages = [
+                { text: '正在解析文档结构...', progress: 15, delay: 800 },
+                { text: '提取题目公式与参数...', progress: 30, delay: 1000 },
+                { text: '构建推导步骤模型...', progress: 50, delay: 900 },
+                { text: '渲染 LaTeX 公式动画...', progress: 70, delay: 1200 },
+                { text: '合成视频编码中...', progress: 85, delay: 800 },
+                { text: '生成完成！', progress: 100, delay: 400 },
+            ];
+
+            for (const stage of stages) {
+                overlayStatus.textContent = stage.text;
+                progressFill.style.width = stage.progress + '%';
+                addLog(stage.text, 'info');
+                await sleep(stage.delay);
+            }
+
+            // Actual API call
+            const formData = new FormData();
+            formData.append('question', qnum);
+            if (fileInput.files.length) formData.append('doc', fileInput.files[0]);
+
+            try {
+                const resp = await fetch('/api/generate', { method: 'POST', body: formData });
+                const data = await resp.json();
+
+                overlay.classList.remove('active');
+
+                if (data.status === 'success') {
+                    addLog('视频生成成功 ✓', 'ok');
+                    resultLabel.textContent = data.question;
+                    resultTitle.textContent = data.title;
+                    videoPlayer.src = data.video_url;
+                    downloadBtn.href = data.download_url;
+                    result.classList.add('active');
+                } else {
+                    addLog('错误: ' + data.error, 'info');
+                    alert(data.error);
+                }
+            } catch (e) {
+                overlay.classList.remove('active');
+                addLog('请求失败: ' + e.message, 'info');
+                alert('请求失败: ' + e.message);
+            }
+
+            generateBtn.disabled = false;
+        });
+
+        newBtn.addEventListener('click', () => {
+            result.classList.remove('active');
+            videoPlayer.src = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        function addLog(text, cls) {
+            const now = new Date().toLocaleTimeString();
+            logArea.innerHTML += `<div class="log-line"><span class="time">[${now}]</span> <span class="${cls}">${text}</span></div>`;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+    </script>
+</body>
+</html>
