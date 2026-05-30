@@ -34,7 +34,7 @@ VIDEO_MAP = build_video_map()
 def load_titles():
     titles = {}
     for fname in glob.glob(os.path.join(DATA_DIR, "Q14.*.json")):
-        with open(fname) as f:
+        with open(fname, encoding="utf-8") as f:
             bank = json.load(f)
         q = list(bank.values())[0]
         qid = q.get("id", "")
