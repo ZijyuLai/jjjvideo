@@ -430,10 +430,14 @@ def analyze():
     if doc and doc.filename:
         suffix = os.path.splitext(doc.filename)[1].lower()
         if suffix in (".docx", ".doc"):
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as tmp:
-                doc.save(tmp.name)
-                student_text = extract_docx_text(tmp.name)
+            tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            tmp.close()
+            doc.save(tmp.name)
+            student_text = extract_docx_text(tmp.name)
+            try:
                 os.unlink(tmp.name)
+            except PermissionError:
+                pass  # Windows may hold file handle briefly
         else:
             return jsonify({"error": "请上传 .docx 格式的文件"}), 400
     else:
