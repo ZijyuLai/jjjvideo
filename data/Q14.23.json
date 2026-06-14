@@ -1,0 +1,78 @@
+{
+  "14.23": {
+    "id": "14.23",
+    "title": "Solar Radiation Electric and Magnetic Field Amplitudes",
+    "title_cn": "太阳辐射电场与磁场振幅计算",
+    "description": "On a clear day, with the sun directly overhead, the received power density from sunlight is about 1300 W/m². If we make the simplifying assumption that this power is transmitted via a single-frequency plane wave, find the resulting amplitude of the incident electric and magnetic fields.",
+    "description_cn": "在晴朗的日子里，太阳直射时，接收到的太阳光功率密度约为 1300 W/m²。假设该功率是通过单频平面波传输的，求入射电场和磁场的振幅。",
+    "parameters": {
+      "power_density": {
+        "expression": "$S = 1300 \\text{ W/m}^2$",
+        "description": "Received solar power density"
+      },
+      "free_space_impedance": {
+        "expression": "$\\eta_0 = 120\\pi \\approx 376.991 \\text{ }\\Omega$",
+        "description": "Impedance of free space"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Power Density and Electric Field Relation",
+        "title_cn": "功率密度与电场关系",
+        "formula": "$S = \\frac{E_0^2}{2\\eta_0}$",
+        "formula_cn": "$S = \\frac{E_0^2}{2\\eta_0}$",
+        "explanation": "Time-average Poynting vector magnitude for a plane wave in free space",
+        "explanation_cn": "自由空间中平面波的时间平均坡印廷矢量模值"
+      },
+      {
+        "id": 2,
+        "title": "Solve for Electric Field Amplitude",
+        "title_cn": "解出电场振幅",
+        "formula": "$E_0 = \\sqrt{2\\eta_0 S}$ \\\\ $E_0 = \\sqrt{2 \\times 376.991 \\times 1300} \\approx \\sqrt{980176.6} \\approx 990.04 \\text{ V/m}$",
+        "formula_cn": "$E_0 = \\sqrt{2\\eta_0 S}$ \\\\ $E_0 = \\sqrt{2 \\times 376.991 \\times 1300} \\approx \\sqrt{980176.6} \\approx 990.04 \\text{ V/m}$"
+      },
+      {
+        "id": 3,
+        "title": "Magnetic Field Amplitude",
+        "title_cn": "磁场振幅",
+        "formula": "$H_0 = \\frac{E_0}{\\eta_0} \\approx \\frac{990.04}{376.991} \\approx 2.626 \\text{ A/m}$",
+        "formula_cn": "$H_0 = \\frac{E_0}{\\eta_0} \\approx \\frac{990.04}{376.991} \\approx 2.626 \\text{ A/m}$",
+        "explanation": "Relation between E and H in a plane wave",
+        "explanation_cn": "平面波中电场与磁场的关系"
+      },
+      {
+        "id": 4,
+        "title": "Alternative: RMS Values",
+        "title_cn": "替代：均方根值（可选）",
+        "formula": "$E_{\\text{rms}} = \\frac{E_0}{\\sqrt{2}} \\approx 700 \\text{ V/m}$ \\\\ $H_{\\text{rms}} = \\frac{H_0}{\\sqrt{2}} \\approx 1.86 \\text{ A/m}$",
+        "formula_cn": "$E_{\\text{rms}} = \\frac{E_0}{\\sqrt{2}} \\approx 700 \\text{ V/m}$ \\\\ $H_{\\text{rms}} = \\frac{H_0}{\\sqrt{2}} \\approx 1.86 \\text{ A/m}$"
+      }
+    ],
+    "results": {
+      "electric_field_peak": "990 V/m",
+      "magnetic_field_peak": "2.63 A/m",
+      "magnetic_flux_density_peak": "3.30 µT"
+    },
+    "note": "This is a simplified model. Actual sunlight is broadband and not a single-frequency plane wave, but this calculation gives the equivalent field strengths if all power were concentrated at one frequency.",
+    "note_cn": "这是一个简化模型。实际太阳光是宽带的，并非单频平面波，但该计算给出了将所有功率集中在一个频率时的等效场强。",
+    "key_concepts": [
+      "Power density",
+      "Poynting vector",
+      "Plane wave",
+      "Free space impedance",
+      "Electric field",
+      "Magnetic field",
+      "Solar radiation"
+    ],
+    "key_concepts_cn": [
+      "功率密度",
+      "坡印廷矢量",
+      "平面波",
+      "自由空间波阻抗",
+      "电场",
+      "磁场",
+      "太阳辐射"
+    ]
+  }
+}

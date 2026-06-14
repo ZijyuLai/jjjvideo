@@ -1,0 +1,97 @@
+{
+  "14.9": {
+    "id": "14.9",
+    "title": "Antenna Gain Calculation from Power Density Measurement",
+    "title_cn": "由功率密度测量值计算天线增益",
+    "description": "At a distance of 300 m from an antenna operating at 5.8 GHz, the radiated power density in the main beam is measured to be $7.5 \\times 10^{-3} \\text{ W/m}^2$. If the input power to the antenna is known to be 85 W, find the gain of the antenna.",
+    "description_cn": "在距离工作频率为 5.8 GHz 的天线 300 m 处，主波束内的辐射功率密度测量值为 $7.5 \\times 10^{-3} \\text{ W/m}^2$。已知天线的输入功率为 85 W，求该天线的增益。",
+    "parameters": {
+      "distance": {
+        "expression": "$r = 300 \\text{ m}$",
+        "description": "Distance from antenna"
+      },
+      "frequency": {
+        "expression": "$f = 5.8 \\text{ GHz}$",
+        "description": "Operating frequency (not directly used in gain formula)"
+      },
+      "power_density": {
+        "expression": "$S = 7.5 \\times 10^{-3} \\text{ W/m}^2$",
+        "description": "Radiated power density in main beam"
+      },
+      "input_power": {
+        "expression": "$P_{\\text{in}} = 85 \\text{ W}$",
+        "description": "Input power to the antenna"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Power Density Formula",
+        "title_cn": "功率密度公式",
+        "formula": "$S = \\frac{P_{\\text{in}} G}{4\\pi r^2}$",
+        "formula_cn": "$S = \\frac{P_{\\text{in}} G}{4\\pi r^2}$",
+        "explanation": "Far-field power density along main beam direction",
+        "explanation_cn": "远场区主波束方向的功率密度"
+      },
+      {
+        "id": 2,
+        "title": "Solve for Gain",
+        "title_cn": "求解增益",
+        "formula": "$G = \\frac{S \\cdot 4\\pi r^2}{P_{\\text{in}}}$",
+        "formula_cn": "$G = \\frac{S \\cdot 4\\pi r^2}{P_{\\text{in}}}$",
+        "explanation": "Rearrange the power density equation",
+        "explanation_cn": "重排功率密度方程"
+      },
+      {
+        "id": 3,
+        "title": "Calculate $4\\pi r^2$",
+        "title_cn": "计算 $4\\pi r^2$",
+        "formula": "$4\\pi r^2 = 4\\pi \\times (300)^2 = 4\\pi \\times 90000 = 360000\\pi \\approx 1.13097 \\times 10^6 \\text{ m}^2$",
+        "formula_cn": "$4\\pi r^2 = 4\\pi \\times (300)^2 = 4\\pi \\times 90000 = 360000\\pi \\approx 1.13097 \\times 10^6 \\text{ m}^2$",
+        "explanation": "$r=300$ m, compute area of sphere with radius $r$",
+        "explanation_cn": "$r=300$ m，计算半径为 $r$ 的球面积"
+      },
+      {
+        "id": 4,
+        "title": "Compute $S \\cdot 4\\pi r^2$",
+        "title_cn": "计算 $S \\cdot 4\\pi r^2$",
+        "formula": "$S \\cdot 4\\pi r^2 = (7.5 \\times 10^{-3}) \\times 360000\\pi = 2700\\pi \\approx 8482.3 \\text{ W}$",
+        "formula_cn": "$S \\cdot 4\\pi r^2 = (7.5 \\times 10^{-3}) \\times 360000\\pi = 2700\\pi \\approx 8482.3 \\text{ W}$",
+        "explanation": "Multiply power density by spherical area",
+        "explanation_cn": "功率密度乘以球面积"
+      },
+      {
+        "id": 5,
+        "title": "Compute Gain (Linear)",
+        "title_cn": "计算增益（线性值）",
+        "formula": "$G = \\frac{2700\\pi}{85} = \\frac{2700}{85}\\pi \\approx 31.7647 \\times \\pi \\approx 99.79$",
+        "formula_cn": "$G = \\frac{2700\\pi}{85} = \\frac{2700}{85}\\pi \\approx 31.7647 \\times \\pi \\approx 99.79$",
+        "explanation": "Divide by input power $P_{\\text{in}}=85$ W",
+        "explanation_cn": "除以输入功率 $P_{\\text{in}}=85$ W"
+      },
+      {
+        "id": 6,
+        "title": "Convert Gain to Decibels",
+        "title_cn": "增益转换为 dB",
+        "formula": "$G_{\\text{dB}} = 10 \\log_{10}(99.79) \\approx 10 \\times 1.999 \\approx 19.99 \\text{ dB} \\approx 20.0 \\text{ dB}$",
+        "formula_cn": "$G_{\\text{dB}} = 10 \\log_{10}(99.79) \\approx 10 \\times 1.999 \\approx 19.99 \\text{ dB} \\approx 20.0 \\text{ dB}$",
+        "explanation": "Use $10\\log_{10}(\\cdot)$ conversion",
+        "explanation_cn": "使用 $10\\log_{10}(\\cdot)$ 转换公式"
+      }
+    ],
+    "key_concepts": [
+      "Antenna gain",
+      "Power density",
+      "Far-field distance",
+      "Spherical spreading",
+      "Decibels"
+    ],
+    "key_concepts_cn": [
+      "天线增益",
+      "功率密度",
+      "远场距离",
+      "球面扩散",
+      "分贝"
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "14.12": {
+    "id": "14.12",
+    "title": "GPS Receiver Maximum Allowable Amplifier Noise Figure",
+    "title_cn": "GPS接收机最大允许放大器噪声系数",
+    "description": "Consider the GPS receiver system shown below. The guaranteed minimum L1 (1575 MHz) carrier power received by an antenna on Earth having a gain of 0 dB is $S_i = -160$ dBW. A GPS receiver is usually specified as requiring a minimum carrier-to-noise ratio, relative to a 1 Hz bandwidth, of $C/N$ (Hz). If the receiver antenna actually has a gain $G_A$ and a noise temperature $T_A$, derive an expression for the maximum allowable amplifier noise figure $F$, assuming an amplifier gain $G$ and a connecting line loss $L$. Evaluate this expression for $C/N = 32$ dB-Hz, $G_A = 5$ dB, $T_A = 300$ K, $G = 10$ dB, and $L = 25$ dB.",
+    "description_cn": "考虑下图所示的 GPS 接收机系统。地球上增益为 0 dB 的天线接收到的保证最小 L1（1575 MHz）载波功率为 $S_i = -160$ dBW。GPS 接收机通常规定相对于 1 Hz 带宽的最小载噪比为 $C/N$ (Hz)。若接收天线实际具有增益 $G_A$ 和噪声温度 $T_A$，假设放大器增益为 $G$、连接线损耗为 $L$，推导最大允许放大器噪声系数 $F$ 的表达式。并对 $C/N = 32$ dB-Hz，$G_A = 5$ dB，$T_A = 300$ K，$G = 10$ dB，$L = 25$ dB 进行计算。",
+    "parameters": {
+      "Si": {
+        "expression": "$S_i = -160 \\text{ dBW} = 10^{-16} \\text{ W}$",
+        "description": "Received carrier power for 0 dB gain antenna"
+      },
+      "C_N0_dB": {
+        "expression": "$C/N_0 = 32 \\text{ dB-Hz}$",
+        "value_linear": "1584.9",
+        "description": "Required carrier-to-noise ratio per Hz bandwidth"
+      },
+      "G_A_dB": {
+        "expression": "$G_A = 5 \\text{ dB}$",
+        "value_linear": "3.1623",
+        "description": "Antenna gain"
+      },
+      "T_A": {
+        "expression": "$T_A = 300 \\text{ K}$",
+        "description": "Antenna noise temperature"
+      },
+      "G_dB": {
+        "expression": "$G = 10 \\text{ dB}$",
+        "value_linear": "10",
+        "description": "LNA gain"
+      },
+      "L_dB": {
+        "expression": "$L = 25 \\text{ dB}$",
+        "value_linear": "316.2278",
+        "description": "Connecting line loss (L > 1)"
+      },
+      "T0": {
+        "expression": "$T_0 = 290 \\text{ K}$",
+        "description": "Standard reference temperature"
+      },
+      "k": {
+        "expression": "$k = 1.38 \\times 10^{-23} \\text{ J/K}$",
+        "description": "Boltzmann constant"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "System Signal Power at Receiver Input",
+        "title_cn": "接收机输入端信号功率",
+        "formula": "$P_{\\text{signal}} = S_i \\cdot g_A \\cdot \\frac{g}{l}$",
+        "formula_cn": "$P_{\\text{signal}} = S_i \\cdot g_A \\cdot \\frac{g}{l}$",
+        "explanation": "Signal power after antenna, LNA, and lossy line",
+        "explanation_cn": "经过天线、LNA 和有损线后的信号功率"
+      },
+      {
+        "id": 2,
+        "title": "System Noise Temperature Referred to Receiver Input",
+        "title_cn": "参考到接收机输入端的系统噪声温度",
+        "formula": "$T_{\\text{sys,out}} = g(T_A + (f-1)T_0) + (l-1)T_0$",
+        "formula_cn": "$T_{\\text{sys,out}} = g(T_A + (f-1)T_0) + (l-1)T_0$",
+        "explanation": "Noise temperature at receiver input from antenna, LNA, and line",
+        "explanation_cn": "接收机输入端的等效噪声温度，包含天线、LNA 和传输线贡献"
+      },
+      {
+        "id": 3,
+        "title": "Carrier-to-Noise Ratio Expression",
+        "title_cn": "载噪比表达式",
+        "formula": "$\\frac{C}{N_0} = \\frac{S_i g_A \\frac{g}{l}}{k \\left[ g(T_A + (f-1)T_0) + (l-1)T_0 \\right]}$",
+        "formula_cn": "$\\frac{C}{N_0} = \\frac{S_i g_A \\frac{g}{l}}{k \\left[ g(T_A + (f-1)T_0) + (l-1)T_0 \\right]}$",
+        "explanation": "$C/N_0$ in Hz",
+        "explanation_cn": "$C/N_0$，单位为 Hz"
+      },
+      {
+        "id": 4,
+        "title": "Solve for Noise Figure F (linear)",
+        "title_cn": "求解噪声系数 F（线性值）",
+        "formula": "$f = \\frac{1}{T_0} \\left[ \\frac{S_i g_A}{l \\, k \\, (C/N_0)} - (T_A - T_0) - \\frac{(l-1)T_0}{g} \\right]$",
+        "formula_cn": "$f = \\frac{1}{T_0} \\left[ \\frac{S_i g_A}{l \\, k \\, (C/N_0)} - (T_A - T_0) - \\frac{(l-1)T_0}{g} \\right]$",
+        "explanation": "Derived expression for maximum allowable F",
+        "explanation_cn": "推导出的最大允许 F 表达式"
+      },
+      {
+        "id": 5,
+        "title": "Numerical Evaluation",
+        "title_cn": "数值计算",
+        "formula": "$\\frac{S_i g_A}{l k (C/N_0)} \\approx 45.72$ \\\\ $-(T_A-T_0) = -10$ \\\\ $-\\frac{(l-1)T_0}{g} \\approx -9141.6$ \\\\ $f = \\frac{1}{290}(45.72 - 10 - 9141.6) \\approx -31.4$",
+        "formula_cn": "$\\frac{S_i g_A}{l k (C/N_0)} \\approx 45.72$ \\\\ $-(T_A-T_0) = -10$ \\\\ $-\\frac{(l-1)T_0}{g} \\approx -9141.6$ \\\\ $f = \\frac{1}{290}(45.72 - 10 - 9141.6) \\approx -31.4$",
+        "explanation": "Numerical substitution",
+        "explanation_cn": "数值代入"
+      }
+    ],
+    "conclusion": "The computed F is negative, which is physically impossible (F ≥ 1). This indicates that with the given parameters (particularly large line loss L = 25 dB), the required C/N0 cannot be achieved even with a noiseless amplifier (F=1).",
+    "conclusion_cn": "计算得到的 F 为负值，物理上不可能（F ≥ 1）。这表明在给定参数下（尤其是线损 L = 25 dB 过大），即使使用无噪声放大器（F=1）也无法达到所需的 C/N0。",
+    "key_concepts": [
+      "GPS L1 carrier",
+      "Carrier-to-noise ratio per Hz (C/N0)",
+      "Noise figure",
+      "Noise temperature",
+      "Cascaded noise",
+      "Lossy line",
+      "LNA",
+      "dB-Hz"
+    ],
+    "key_concepts_cn": [
+      "GPS L1 载波",
+      "单位带宽载噪比 (C/N0)",
+      "噪声系数",
+      "噪声温度",
+      "级联噪声",
+      "有损耗传输线",
+      "低噪声放大器",
+      "dB-Hz"
+    ]
+  }
+}

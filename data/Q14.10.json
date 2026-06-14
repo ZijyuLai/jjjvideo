@@ -1,0 +1,100 @@
+{
+  "14.10": {
+    "id": "14.10",
+    "title": "Comparison of Radio Link and Wired Link Transmit Power",
+    "title_cn": "无线电链路与有线链路发射功率比较",
+    "description": "A cellular base station is to be connected to its Mobile Telephone Switching Office located 5 km away. Two possibilities are to be evaluated: (1) a radio link operating at 28 GHz, with $G_t = G_r = 25$ dB, and (2) a wired link using coaxial line having an attenuation of 0.05 dB/m, with four 30 dB repeater amplifiers along the line. If the minimum required received power level for both cases is the same, which option will require the smallest transmit power?",
+    "description_cn": "一个蜂窝基站需要连接到位于 5 km 外的移动电话交换局。需要评估两种方案：(1) 工作频率为 28 GHz 的无线电链路，发射和接收天线增益均为 25 dB；(2) 使用同轴电缆的有线链路，同轴电缆衰减为 0.05 dB/m，沿线设有四个 30 dB 的中继放大器。如果两种情况所需的最小接收功率水平相同，哪种方案需要的发射功率最小？",
+    "parameters": {
+      "distance": {
+        "expression": "$R = 5 \\text{ km} = 5000 \\text{ m}$",
+        "description": "Distance between base station and switching office"
+      },
+      "frequency": {
+        "expression": "$f = 28 \\text{ GHz}$",
+        "description": "Radio link operating frequency"
+      },
+      "antenna_gain": {
+        "expression": "$G_t = G_r = 25 \\text{ dB}$",
+        "description": "Transmit and receive antenna gains"
+      },
+      "cable_attenuation": {
+        "expression": "$\\alpha = 0.05 \\text{ dB/m}$",
+        "description": "Coaxial cable attenuation per meter"
+      },
+      "num_amplifiers": {
+        "expression": "$N = 4$",
+        "description": "Number of repeater amplifiers"
+      },
+      "amplifier_gain": {
+        "expression": "$G_{\\text{amp}} = 30 \\text{ dB}$",
+        "description": "Gain of each amplifier"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Radio Link: Path Loss Calculation",
+        "title_cn": "无线电链路：路径损耗计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{28 \\times 10^9} \\approx 0.010714 \\text{ m}$ \\\\ $L_{\\text{path,dB}} = 20 \\log_{10}\\left(\\frac{4\\pi R}{\\lambda}\\right)$ \\\\ $\\frac{4\\pi R}{\\lambda} = \\frac{4\\pi \\times 5000}{0.010714} \\approx 5.865 \\times 10^6$ \\\\ $L_{\\text{path,dB}} = 20 \\log_{10}(5.865 \\times 10^6) \\approx 135.36 \\text{ dB}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{28 \\times 10^9} \\approx 0.010714 \\text{ m}$ \\\\ $L_{\\text{path,dB}} = 20 \\log_{10}\\left(\\frac{4\\pi R}{\\lambda}\\right)$ \\\\ $\\frac{4\\pi R}{\\lambda} = \\frac{4\\pi \\times 5000}{0.010714} \\approx 5.865 \\times 10^6$ \\\\ $L_{\\text{path,dB}} = 20 \\log_{10}(5.865 \\times 10^6) \\approx 135.36 \\text{ dB}$",
+        "explanation": "Free-space path loss formula (Friis equation in dB)",
+        "explanation_cn": "自由空间路径损耗公式（弗里斯传输公式的 dB 形式）"
+      },
+      {
+        "id": 2,
+        "title": "Radio Link: Transmit Power Requirement",
+        "title_cn": "无线电链路：发射功率需求",
+        "formula": "$P_{r,\\text{dBm}} = P_{t,\\text{dBm}} + G_{t,\\text{dB}} + G_{r,\\text{dB}} - L_{\\text{path,dB}}$ \\\\ $P_{t,\\text{radio,dBm}} = P_{r,\\text{dBm}} - G_{t,\\text{dB}} - G_{r,\\text{dB}} + L_{\\text{path,dB}}$ \\\\ $P_{t,\\text{radio,dBm}} = P_{r,\\text{dBm}} - 50 + 135.36 = P_{r,\\text{dBm}} + 85.36 \\text{ dB}$",
+        "formula_cn": "$P_{r,\\text{dBm}} = P_{t,\\text{dBm}} + G_{t,\\text{dB}} + G_{r,\\text{dB}} - L_{\\text{path,dB}}$ \\\\ $P_{t,\\text{radio,dBm}} = P_{r,\\text{dBm}} - G_{t,\\text{dB}} - G_{r,\\text{dB}} + L_{\\text{path,dB}}$ \\\\ $P_{t,\\text{radio,dBm}} = P_{r,\\text{dBm}} - 50 + 135.36 = P_{r,\\text{dBm}} + 85.36 \\text{ dB}$",
+        "explanation": "Link budget in dB, antenna gains total 50 dB",
+        "explanation_cn": "dB 形式的链路预算，天线增益合计 50 dB"
+      },
+      {
+        "id": 3,
+        "title": "Wired Link: Cable and Amplifier Net Loss",
+        "title_cn": "有线链路：电缆与放大器净损耗",
+        "formula": "$L_{\\text{cable,dB}} = 0.05 \\times 5000 = 250 \\text{ dB}$ \\\\ $G_{\\text{amp,total,dB}} = 4 \\times 30 = 120 \\text{ dB}$ \\\\ $L_{\\text{net,dB}} = L_{\\text{cable,dB}} - G_{\\text{amp,total,dB}} = 250 - 120 = 130 \\text{ dB}$",
+        "formula_cn": "$L_{\\text{cable,dB}} = 0.05 \\times 5000 = 250 \\text{ dB}$ \\\\ $G_{\\text{amp,total,dB}} = 4 \\times 30 = 120 \\text{ dB}$ \\\\ $L_{\\text{net,dB}} = L_{\\text{cable,dB}} - G_{\\text{amp,total,dB}} = 250 - 120 = 130 \\text{ dB}$",
+        "explanation": "Total cable attenuation minus total amplifier gain",
+        "explanation_cn": "电缆总衰减减去放大器总增益"
+      },
+      {
+        "id": 4,
+        "title": "Wired Link: Transmit Power Requirement",
+        "title_cn": "有线链路：发射功率需求",
+        "formula": "$P_{r,\\text{dBm}} = P_{t,\\text{dBm}} - L_{\\text{net,dB}}$ \\\\ $P_{t,\\text{wired,dBm}} = P_{r,\\text{dBm}} + 130 \\text{ dB}$",
+        "formula_cn": "$P_{r,\\text{dBm}} = P_{t,\\text{dBm}} - L_{\\text{net,dB}}$ \\\\ $P_{t,\\text{wired,dBm}} = P_{r,\\text{dBm}} + 130 \\text{ dB}$",
+        "explanation": "Link budget for wired link (no antennas, just cable and amplifiers)",
+        "explanation_cn": "有线链路链路预算（无天线，仅电缆和放大器）"
+      },
+      {
+        "id": 5,
+        "title": "Comparison and Conclusion",
+        "title_cn": "比较与结论",
+        "formula": "$P_{t,\\text{radio,dBm}} = P_{r,\\text{dBm}} + 85.36 \\text{ dB}$ \\\\ $P_{t,\\text{wired,dBm}} = P_{r,\\text{dBm}} + 130 \\text{ dB}$ \\\\ $\\Delta = 130 - 85.36 = 44.64 \\text{ dB}$ \\\\ $\\text{Radio link requires } 44.64 \\text{ dB less transmit power}$",
+        "formula_cn": "$P_{t,\\text{radio,dBm}} = P_{r,\\text{dBm}} + 85.36 \\text{ dB}$ \\\\ $P_{t,\\text{wired,dBm}} = P_{r,\\text{dBm}} + 130 \\text{ dB}$ \\\\ $\\Delta = 130 - 85.36 = 44.64 \\text{ dB}$ \\\\ $\\text{无线电链路发射功率小 } 44.64 \\text{ dB}$",
+        "explanation": "Compare required transmit power for same received power level",
+        "explanation_cn": "在相同接收功率水平下比较所需发射功率"
+      }
+    ],
+    "conclusion": "The radio link (Option 1) requires significantly smaller transmit power (44.64 dB less) than the wired link.",
+    "conclusion_cn": "无线电链路（方案1）需要的发射功率远小于有线链路（小 44.64 dB）。",
+    "key_concepts": [
+      "Free-space path loss",
+      "Friis transmission equation",
+      "Link budget",
+      "Cable attenuation",
+      "Repeater amplifier",
+      "dB comparison"
+    ],
+    "key_concepts_cn": [
+      "自由空间路径损耗",
+      "弗里斯传输公式",
+      "链路预算",
+      "电缆衰减",
+      "中继放大器",
+      "dB 比较"
+    ]
+  }
+}

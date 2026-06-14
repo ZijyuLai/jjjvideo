@@ -1,0 +1,86 @@
+{
+  "14.4": {
+    "id": "14.4",
+    "title": "DBS Reflector Antenna Directivity Calculation",
+    "title_cn": "DBS反射面天线方向性系数计算",
+    "description": "A DBS reflector antenna operating at 12.4 GHz has a diameter of 18 inches. If the aperture efficiency is 65%, find the directivity.",
+    "description_cn": "一个工作频率为 12.4 GHz 的 DBS 反射面天线，其直径为 18 英寸。若口径效率为 65%，求该天线的方向性系数。",
+    "parameters": {
+      "frequency": {
+        "expression": "$f = 12.4 \\text{ GHz}$",
+        "value_hz": "1.24e10",
+        "description": "Operating frequency"
+      },
+      "diameter": {
+        "expression": "$d = 18 \\text{ inches}$",
+        "value_meters": "0.4572",
+        "description": "Antenna diameter"
+      },
+      "aperture_efficiency": {
+        "expression": "$\\eta_{\\text{ap}} = 65\\% = 0.65$",
+        "description": "Aperture efficiency"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{12.4 \\times 10^9} \\approx 0.02419 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{12.4 \\times 10^9} \\approx 0.02419 \\text{ m}$",
+        "explanation": "Using speed of light $c=3\\times10^8\\text{ m/s}$ and given frequency",
+        "explanation_cn": "使用光速 $c=3\\times10^8\\text{ m/s}$ 及给定频率计算波长"
+      },
+      {
+        "id": 2,
+        "title": "Directivity Formula for Circular Aperture",
+        "title_cn": "圆形口径方向性公式",
+        "formula": "$D = \\eta_{\\text{ap}} \\cdot \\left( \\frac{\\pi d}{\\lambda} \\right)^2$",
+        "formula_cn": "$D = \\eta_{\\text{ap}} \\cdot \\left( \\frac{\\pi d}{\\lambda} \\right)^2$",
+        "explanation": "Standard directivity expression for aperture antennas",
+        "explanation_cn": "口径天线标准方向性表达式"
+      },
+      {
+        "id": 3,
+        "title": "Compute $\\frac{\\pi d}{\\lambda}$",
+        "title_cn": "计算 $\\frac{\\pi d}{\\lambda}$",
+        "formula": "$\\frac{\\pi d}{\\lambda} = \\frac{\\pi \\times 0.4572}{0.02419} \\approx 59.36$",
+        "formula_cn": "$\\frac{\\pi d}{\\lambda} = \\frac{\\pi \\times 0.4572}{0.02419} \\approx 59.36$",
+        "explanation": "Substitute diameter in meters and wavelength",
+        "explanation_cn": "代入以米为单位的直径和波长"
+      },
+      {
+        "id": 4,
+        "title": "Compute Directivity (Dimensionless)",
+        "title_cn": "计算方向性系数（无量纲）",
+        "formula": "$D = 0.65 \\times (59.36)^2 \\approx 0.65 \\times 3524 \\approx 2291$",
+        "formula_cn": "$D = 0.65 \\times (59.36)^2 \\approx 0.65 \\times 3524 \\approx 2291$",
+        "explanation": "Square the intermediate result and multiply by efficiency",
+        "explanation_cn": "将中间结果平方后乘以效率"
+      },
+      {
+        "id": 5,
+        "title": "Convert Directivity to Decibels",
+        "title_cn": "方向性系数转换为 dB",
+        "formula": "$D_{\\text{dB}} = 10\\log_{10}(2291) \\approx 10 \\times 3.360 \\approx 33.6 \\text{ dB}$",
+        "formula_cn": "$D_{\\text{dB}} = 10\\log_{10}(2291) \\approx 10 \\times 3.360 \\approx 33.6 \\text{ dB}$",
+        "explanation": "Use $10\\log_{10}(\\cdot)$ conversion",
+        "explanation_cn": "使用 $10\\log_{10}(\\cdot)$ 转换公式"
+      }
+    ],
+    "key_concepts": [
+      "DBS reflector antenna",
+      "Aperture efficiency",
+      "Directivity",
+      "Circular aperture",
+      "Decibels"
+    ],
+    "key_concepts_cn": [
+      "DBS反射面天线",
+      "口径效率",
+      "方向性系数",
+      "圆形口径",
+      "分贝"
+    ]
+  }
+}

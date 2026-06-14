@@ -1,0 +1,77 @@
+{
+  "14.21": {
+    "id": "14.21",
+    "title": "Atmospheric Noise Temperature for Zenith and Horizon",
+    "title_cn": "天顶与地平线方向大气噪声温度计算",
+    "description": "The atmosphere does not have a definite thickness since it gradually thins with altitude, with a consequent decrease in attenuation. However, if we use a simplified \"orange peel\" model and assume that the atmosphere can be approximated by a uniform layer of fixed thickness, we can estimate the background noise temperature seen through the atmosphere. Thus, let the thickness of the atmosphere be 4000 m, and find the maximum distance $\\ell$ to the edge of the atmosphere along the horizon, as shown in the figure below (the radius of Earth is 6400 km). Now assume an average atmospheric attenuation of 0.005 dB/km, with a background noise temperature beyond the atmosphere of 4 K, and find the noise temperature seen on Earth by treating the cascade of the background noise with the attenuation of the atmosphere. Do this for an ideal antenna pointing toward the zenith, and toward the horizon.",
+    "description_cn": "大气层并没有确定的厚度，因为它随高度逐渐变稀薄，衰减也随之减小。然而，如果我们采用简化的“橘子皮”模型，假设大气层可以近似为固定厚度的均匀层，就可以估算透过大气层看到的背景噪声温度。设大气层厚度为 4000 m，计算沿地平线方向到大气层边缘的最大距离 $\\ell$（地球半径为 6400 km）。假设平均大气衰减为 0.005 dB/km，大气层外的背景噪声温度为 4 K，通过将背景噪声与大气衰减级联处理，求在地球上测得的噪声温度。分别计算理想天线指向天顶和指向地平线的情况。",
+    "parameters": {
+      "earth_radius": {
+        "expression": "$R_E = 6400 \\text{ km} = 6.4 \\times 10^6 \\text{ m}$",
+        "description": "Earth radius"
+      },
+      "atmosphere_thickness": {
+        "expression": "$h = 4000 \\text{ m} = 4 \\text{ km}$",
+        "description": "Uniform atmosphere layer thickness"
+      },
+      "attenuation_coefficient": {
+        "expression": "$\\alpha = 0.005 \\text{ dB/km}$",
+        "description": "Average atmospheric attenuation per kilometer"
+      },
+      "cosmic_temperature": {
+        "expression": "$T_{\\text{cosmic}} = 4 \\text{ K}$",
+        "description": "Background noise temperature beyond atmosphere"
+      },
+      "atmospheric_temperature": {
+        "expression": "$T_{\\text{atm}} = 290 \\text{ K}$",
+        "description": "Physical temperature of the atmosphere (assumed)"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Horizon Path Length Calculation",
+        "title_cn": "地平线路径长度计算",
+        "formula": "$(R + h)^2 = R^2 + \\ell^2$ \\\\ $\\ell = \\sqrt{(R + h)^2 - R^2} = \\sqrt{2Rh + h^2}$ \\\\ $\\ell = \\sqrt{2 \\times 6.4 \\times 10^6 \\times 4 \\times 10^3 + (4 \\times 10^3)^2} \\approx \\sqrt{5.12 \\times 10^{10} + 1.6 \\times 10^7} \\approx 2.263 \\times 10^5 \\text{ m} = 226.3 \\text{ km}$",
+        "formula_cn": "$(R + h)^2 = R^2 + \\ell^2$ \\\\ $\\ell = \\sqrt{(R + h)^2 - R^2} = \\sqrt{2Rh + h^2}$ \\\\ $\\ell = \\sqrt{2 \\times 6.4 \\times 10^6 \\times 4 \\times 10^3 + (4 \\times 10^3)^2} \\approx \\sqrt{5.12 \\times 10^{10} + 1.6 \\times 10^7} \\approx 2.263 \\times 10^5 \\text{ m} = 226.3 \\text{ km}$"
+      },
+      {
+        "id": 2,
+        "title": "Zenith Direction Noise Temperature",
+        "title_cn": "天顶方向噪声温度",
+        "formula": "$A_{\\text{dB,zenith}} = \\alpha \\cdot h = 0.005 \\times 4 = 0.02 \\text{ dB}$ \\\\ $L_{\\text{zenith}} = 10^{0.02/10} = 10^{0.002} \\approx 1.004615$ \\\\ $\\tau_{\\text{zenith}} = 1/L_{\\text{zenith}} \\approx 0.9954$ \\\\ $T_{\\text{zenith}} = \\tau_{\\text{zenith}} T_{\\text{cosmic}} + (1 - \\tau_{\\text{zenith}}) T_{\\text{atm}}$ \\\\ $T_{\\text{zenith}} \\approx 0.9954 \\times 4 + 0.0046 \\times 290 \\approx 3.9816 + 1.334 \\approx 5.32 \\text{ K}$",
+        "formula_cn": "$A_{\\text{dB,zenith}} = \\alpha \\cdot h = 0.005 \\times 4 = 0.02 \\text{ dB}$ \\\\ $L_{\\text{zenith}} = 10^{0.02/10} = 10^{0.002} \\approx 1.004615$ \\\\ $\\tau_{\\text{zenith}} = 1/L_{\\text{zenith}} \\approx 0.9954$ \\\\ $T_{\\text{zenith}} = \\tau_{\\text{zenith}} T_{\\text{cosmic}} + (1 - \\tau_{\\text{zenith}}) T_{\\text{atm}}$ \\\\ $T_{\\text{zenith}} \\approx 0.9954 \\times 4 + 0.0046 \\times 290 \\approx 3.9816 + 1.334 \\approx 5.32 \\text{ K}$"
+      },
+      {
+        "id": 3,
+        "title": "Horizon Direction Noise Temperature",
+        "title_cn": "地平线方向噪声温度",
+        "formula": "$A_{\\text{dB,horizon}} = \\alpha \\cdot \\ell = 0.005 \\times 226.3 = 1.1315 \\text{ dB}$ \\\\ $L_{\\text{horizon}} = 10^{1.1315/10} = 10^{0.11315} \\approx 1.297$ \\\\ $\\tau_{\\text{horizon}} = 1/L_{\\text{horizon}} \\approx 0.771$ \\\\ $T_{\\text{horizon}} = \\tau_{\\text{horizon}} T_{\\text{cosmic}} + (1 - \\tau_{\\text{horizon}}) T_{\\text{atm}}$ \\\\ $T_{\\text{horizon}} \\approx 0.771 \\times 4 + 0.229 \\times 290 \\approx 3.084 + 66.41 \\approx 69.5 \\text{ K}$",
+        "formula_cn": "$A_{\\text{dB,horizon}} = \\alpha \\cdot \\ell = 0.005 \\times 226.3 = 1.1315 \\text{ dB}$ \\\\ $L_{\\text{horizon}} = 10^{1.1315/10} = 10^{0.11315} \\approx 1.297$ \\\\ $\\tau_{\\text{horizon}} = 1/L_{\\text{horizon}} \\approx 0.771$ \\\\ $T_{\\text{horizon}} = \\tau_{\\text{horizon}} T_{\\text{cosmic}} + (1 - \\tau_{\\text{horizon}}) T_{\\text{atm}}$ \\\\ $T_{\\text{horizon}} \\approx 0.771 \\times 4 + 0.229 \\times 290 \\approx 3.084 + 66.41 \\approx 69.5 \\text{ K}$"
+      }
+    ],
+    "results": {
+      "horizon_path_length": "226.3 km",
+      "zenith_noise_temperature": "5.32 K",
+      "horizon_noise_temperature": "69.5 K"
+    },
+    "key_concepts": [
+      "Atmospheric attenuation",
+      "Noise temperature cascade",
+      "Horizon path length",
+      "Zenith",
+      "Orange peel model",
+      "Earth curvature",
+      "Transmissivity"
+    ],
+    "key_concepts_cn": [
+      "大气衰减",
+      "噪声温度级联",
+      "地平线路径长度",
+      "天顶",
+      "橘子皮模型",
+      "地球曲率",
+      "透射率"
+    ]
+  }
+}

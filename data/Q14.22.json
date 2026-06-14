@@ -1,0 +1,106 @@
+{
+  "14.22": {
+    "id": "14.22",
+    "title": "Safe Distance from Reflector Antenna at 28 GHz",
+    "title_cn": "28 GHz 反射面天线安全距离计算",
+    "description": "A 28 GHz radio link uses a tower-mounted reflector antenna with a gain of 32 dB and a transmitter power of 5 W. (a) Find the minimum distance within the main beam of the antenna for which the U.S.-recommended safe power density limit of 10 mW/cm² is not exceeded. (b) How does this distance change for a position within the sidelobe region of the antenna if we assume a worst-case sidelobe level of 10 dB below the main beam? (c) Are these distances in the far-field region of the antenna? (Assume a circular reflector, with an aperture efficiency of 60%.)",
+    "description_cn": "一个 28 GHz 无线电链路使用塔装反射面天线，增益为 32 dB，发射功率为 5 W。(a) 求在天线主波束内，不超过美国建议的安全功率密度限值 10 mW/cm² 的最小距离。(b) 如果假设最坏情况旁瓣电平比主波束低 10 dB，对于天线旁瓣区域内的位置，这个距离如何变化？(c) 这些距离是否在天线的远场区？（假设圆形反射面，口径效率为 60%。）",
+    "parameters": {
+      "frequency": {
+        "expression": "$f = 28 \\text{ GHz} = 28 \\times 10^9 \\text{ Hz}$",
+        "description": "Operating frequency"
+      },
+      "gain_dB": {
+        "expression": "$G = 32 \\text{ dB}$",
+        "value_linear": "1584.9",
+        "description": "Antenna gain"
+      },
+      "transmit_power": {
+        "expression": "$P_t = 5 \\text{ W}$",
+        "description": "Transmitter power"
+      },
+      "safe_power_density": {
+        "expression": "$S_{\\text{max}} = 10 \\text{ mW/cm}^2 = 100 \\text{ W/m}^2$",
+        "description": "U.S. recommended safe power density limit"
+      },
+      "aperture_efficiency": {
+        "expression": "$\\eta_{\\text{ap}} = 60\\% = 0.6$",
+        "description": "Aperture efficiency"
+      },
+      "sidelobe_level": {
+        "expression": "$\\text{SLL} = 10 \\text{ dB below main beam}$",
+        "value_linear": "0.1",
+        "description": "Worst-case sidelobe level relative to main beam"
+      },
+      "speed_of_light": {
+        "expression": "$c = 3 \\times 10^8 \\text{ m/s}$",
+        "description": "Speed of light"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{28 \\times 10^9} \\approx 0.010714 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{28 \\times 10^9} \\approx 0.010714 \\text{ m}$"
+      },
+      {
+        "id": 2,
+        "title": "(a) Main Beam Safe Distance",
+        "title_cn": "(a) 主波束安全距离",
+        "formula": "$S = \\frac{P_t G}{4\\pi r^2} \\Rightarrow r = \\sqrt{\\frac{P_t G}{4\\pi S_{\\text{max}}}}$ \\\\ $r_{\\text{main}} = \\sqrt{\\frac{5 \\times 1584.9}{4\\pi \\times 100}} \\approx \\sqrt{\\frac{7924.5}{1256.6}} \\approx \\sqrt{6.306} \\approx 2.51 \\text{ m}$",
+        "formula_cn": "$S = \\frac{P_t G}{4\\pi r^2} \\Rightarrow r = \\sqrt{\\frac{P_t G}{4\\pi S_{\\text{max}}}}$ \\\\ $r_{\\text{main}} = \\sqrt{\\frac{5 \\times 1584.9}{4\\pi \\times 100}} \\approx \\sqrt{\\frac{7924.5}{1256.6}} \\approx \\sqrt{6.306} \\approx 2.51 \\text{ m}$"
+      },
+      {
+        "id": 3,
+        "title": "(b) Sidelobe Safe Distance",
+        "title_cn": "(b) 旁瓣安全距离",
+        "formula": "$G_{\\text{sidelobe}} = G_{\\text{main}} \\times 10^{-10/10} = 1584.9 \\times 0.1 = 158.49$ \\\\ $r_{\\text{sidelobe}} = \\sqrt{\\frac{P_t G_{\\text{sidelobe}}}{4\\pi S_{\\text{max}}}} = \\sqrt{\\frac{5 \\times 158.49}{1256.6}} \\approx \\sqrt{0.6306} \\approx 0.79 \\text{ m}$",
+        "formula_cn": "$G_{\\text{sidelobe}} = G_{\\text{main}} \\times 10^{-10/10} = 1584.9 \\times 0.1 = 158.49$ \\\\ $r_{\\text{sidelobe}} = \\sqrt{\\frac{P_t G_{\\text{sidelobe}}}{4\\pi S_{\\text{max}}}} = \\sqrt{\\frac{5 \\times 158.49}{1256.6}} \\approx \\sqrt{0.6306} \\approx 0.79 \\text{ m}$"
+      },
+      {
+        "id": 4,
+        "title": "(c) Far-Field Distance Calculation",
+        "title_cn": "(c) 远场距离计算",
+        "formula": "$G = \\eta_{\\text{ap}} \\frac{\\pi^2 d^2}{\\lambda^2} \\Rightarrow d = \\frac{\\lambda}{\\pi} \\sqrt{\\frac{G}{\\eta_{\\text{ap}}}}$ \\\\ $d \\approx \\frac{0.010714}{\\pi} \\sqrt{\\frac{1584.9}{0.6}} \\approx 0.003410 \\times 51.395 \\approx 0.1753 \\text{ m}$ \\\\ $r_{\\text{ff}} = \\frac{2d^2}{\\lambda} = \\frac{2 \\times (0.1753)^2}{0.010714} \\approx \\frac{0.06146}{0.010714} \\approx 5.74 \\text{ m}$",
+        "formula_cn": "$G = \\eta_{\\text{ap}} \\frac{\\pi^2 d^2}{\\lambda^2} \\Rightarrow d = \\frac{\\lambda}{\\pi} \\sqrt{\\frac{G}{\\eta_{\\text{ap}}}}$ \\\\ $d \\approx \\frac{0.010714}{\\pi} \\sqrt{\\frac{1584.9}{0.6}} \\approx 0.003410 \\times 51.395 \\approx 0.1753 \\text{ m}$ \\\\ $r_{\\text{ff}} = \\frac{2d^2}{\\lambda} = \\frac{2 \\times (0.1753)^2}{0.010714} \\approx \\frac{0.06146}{0.010714} \\approx 5.74 \\text{ m}$"
+      },
+      {
+        "id": 5,
+        "title": "Comparison with Far-Field Distance",
+        "title_cn": "与远场距离比较",
+        "formula": "$r_{\\text{main}} = 2.51 \\text{ m} < 5.74 \\text{ m}$ \\\\ $r_{\\text{sidelobe}} = 0.79 \\text{ m} < 5.74 \\text{ m}$ \\\\ $\\text{Both distances are in the near-field region}$",
+        "formula_cn": "$r_{\\text{main}} = 2.51 \\text{ m} < 5.74 \\text{ m}$ \\\\ $r_{\\text{sidelobe}} = 0.79 \\text{ m} < 5.74 \\text{ m}$ \\\\ $\\text{两个距离均在近场区}$"
+      }
+    ],
+    "results": {
+      "main_beam_distance": "2.51 m",
+      "sidelobe_distance": "0.79 m",
+      "far_field_distance": "5.74 m",
+      "is_far_field": false
+    },
+    "key_concepts": [
+      "Power density",
+      "Safe distance",
+      "Antenna gain",
+      "Main beam",
+      "Sidelobe level",
+      "Far-field distance",
+      "Fraunhofer distance",
+      "Aperture efficiency",
+      "Circular reflector"
+    ],
+    "key_concepts_cn": [
+      "功率密度",
+      "安全距离",
+      "天线增益",
+      "主波束",
+      "旁瓣电平",
+      "远场距离",
+      "夫琅禾费距离",
+      "口径效率",
+      "圆形反射面"
+    ]
+  }
+}

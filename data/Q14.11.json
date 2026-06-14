@@ -1,0 +1,148 @@
+{
+  "14.11": {
+    "id": "14.11",
+    "title": "GSM Downlink Maximum Range Calculation",
+    "title_cn": "GSM 下行链路最大作用距离计算",
+    "description": "A GSM cellular telephone system operates at a downlink frequency of 935–960 MHz, with a channel bandwidth of 200 kHz, and a base station that transmits with an EIRP of 20 W. The mobile receiver has an antenna with a gain of 0 dBi and a noise temperature of 450 K, and the receiver has a noise figure of 8 dB. Find the maximum operating range if the required minimum SNR at the output of the receiver is 10 dB, and a link margin of 30 dB is required to account for propagation into vehicles, buildings, and urban areas.",
+    "description_cn": "一个 GSM 蜂窝电话系统工作在下行链路频率 935–960 MHz，信道带宽为 200 kHz，基站的发射 EIRP 为 20 W。移动接收机的天线增益为 0 dBi，噪声温度为 450 K，接收机噪声系数为 8 dB。若接收机输出端所需的最小信噪比为 10 dB，且需要 30 dB 的链路余量以考虑进入车辆、建筑物和市区的传播损耗，求最大工作距离。",
+    "parameters": {
+      "frequency_min": "935 MHz",
+      "frequency_max": "960 MHz",
+      "center_frequency": {
+        "expression": "$f = 947.5 \\text{ MHz} = 9.475 \\times 10^8 \\text{ Hz}$",
+        "description": "Center frequency"
+      },
+      "bandwidth": {
+        "expression": "$B = 200 \\text{ kHz} = 2 \\times 10^5 \\text{ Hz}$",
+        "description": "Channel bandwidth"
+      },
+      "EIRP": {
+        "expression": "$\\text{EIRP} = 20 \\text{ W} = 43.01 \\text{ dBm}$",
+        "description": "Effective isotropic radiated power"
+      },
+      "receive_antenna_gain": {
+        "expression": "$G_r = 0 \\text{ dBi} = 1$",
+        "description": "Mobile antenna gain"
+      },
+      "antenna_noise_temperature": {
+        "expression": "$T_{\\text{ant}} = 450 \\text{ K}$",
+        "description": "Antenna noise temperature"
+      },
+      "receiver_noise_figure": {
+        "expression": "$NF = 8 \\text{ dB}$",
+        "value_linear": "6.3096",
+        "description": "Receiver noise figure"
+      },
+      "output_SNR": {
+        "expression": "$\\text{SNR}_{\\text{out}} = 10 \\text{ dB}$",
+        "description": "Minimum SNR at receiver output"
+      },
+      "link_margin": {
+        "expression": "$M = 30 \\text{ dB}$",
+        "description": "Link margin for propagation losses"
+      },
+      "reference_temperature": {
+        "expression": "$T_0 = 290 \\text{ K}$",
+        "description": "Standard reference temperature"
+      },
+      "boltzmann_constant": {
+        "expression": "$k = 1.38 \\times 10^{-23} \\text{ J/K}$",
+        "description": "Boltzmann constant"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{9.475 \\times 10^8} \\approx 0.3166 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{9.475 \\times 10^8} \\approx 0.3166 \\text{ m}$",
+        "explanation": "Use center frequency",
+        "explanation_cn": "使用中心频率"
+      },
+      {
+        "id": 2,
+        "title": "Receiver Noise Temperature",
+        "title_cn": "接收机噪声温度",
+        "formula": "$F = 10^{8/10} = 10^{0.8} \\approx 6.3096$ \\\\ $T_{\\text{rx}} = (F-1)T_0 = (6.3096 - 1) \\times 290 \\approx 1539.78 \\text{ K}$",
+        "formula_cn": "$F = 10^{8/10} = 10^{0.8} \\approx 6.3096$ \\\\ $T_{\\text{rx}} = (F-1)T_0 = (6.3096 - 1) \\times 290 \\approx 1539.78 \\text{ K}$",
+        "explanation": "Noise figure to noise temperature conversion",
+        "explanation_cn": "噪声系数到噪声温度的转换"
+      },
+      {
+        "id": 3,
+        "title": "System Noise Temperature",
+        "title_cn": "系统噪声温度",
+        "formula": "$T_{\\text{sys}} = T_{\\text{ant}} + T_{\\text{rx}} = 450 + 1539.78 \\approx 1989.78 \\text{ K}$",
+        "formula_cn": "$T_{\\text{sys}} = T_{\\text{ant}} + T_{\\text{rx}} = 450 + 1539.78 \\approx 1989.78 \\text{ K}$",
+        "explanation": "Antenna and receiver cascaded noise temperature",
+        "explanation_cn": "天线与接收机级联噪声温度"
+      },
+      {
+        "id": 4,
+        "title": "Noise Power Calculation",
+        "title_cn": "噪声功率计算",
+        "formula": "$P_n = k T_{\\text{sys}} B = 1.38 \\times 10^{-23} \\times 1989.78 \\times 2 \\times 10^5 \\approx 5.492 \\times 10^{-15} \\text{ W}$ \\\\ $P_{n,\\text{dBm}} = 10 \\log_{10}(5.492 \\times 10^{-12}) \\approx -112.60 \\text{ dBm}$",
+        "formula_cn": "$P_n = k T_{\\text{sys}} B = 1.38 \\times 10^{-23} \\times 1989.78 \\times 2 \\times 10^5 \\approx 5.492 \\times 10^{-15} \\text{ W}$ \\\\ $P_{n,\\text{dBm}} = 10 \\log_{10}(5.492 \\times 10^{-12}) \\approx -112.60 \\text{ dBm}$",
+        "explanation": "Thermal noise power in bandwidth B",
+        "explanation_cn": "带宽 B 内的热噪声功率"
+      },
+      {
+        "id": 5,
+        "title": "Required Input SNR",
+        "title_cn": "所需输入信噪比",
+        "formula": "$\\text{SNR}_{\\text{in,dB}} = \\text{SNR}_{\\text{out,dB}} + NF_{\\text{dB}} = 10 + 8 = 18 \\text{ dB}$",
+        "formula_cn": "$\\text{SNR}_{\\text{in,dB}} = \\text{SNR}_{\\text{out,dB}} + NF_{\\text{dB}} = 10 + 8 = 18 \\text{ dB}$",
+        "explanation": "Receiver noise figure definition",
+        "explanation_cn": "接收机噪声系数定义"
+      },
+      {
+        "id": 6,
+        "title": "Minimum Received Power",
+        "title_cn": "最小接收功率",
+        "formula": "$P_{r,\\min,\\text{dBm}} = P_{n,\\text{dBm}} + \\text{SNR}_{\\text{in,dB}} = -112.60 + 18 = -94.60 \\text{ dBm}$",
+        "formula_cn": "$P_{r,\\min,\\text{dBm}} = P_{n,\\text{dBm}} + \\text{SNR}_{\\text{in,dB}} = -112.60 + 18 = -94.60 \\text{ dBm}$",
+        "explanation": "Carrier power required at receiver input",
+        "explanation_cn": "接收机输入端所需载波功率"
+      },
+      {
+        "id": 7,
+        "title": "Link Budget with Margin",
+        "title_cn": "带余量的链路预算",
+        "formula": "$P_{r,\\text{dBm}} = \\text{EIRP}_{\\text{dBm}} + G_{r,\\text{dB}} - L_{\\text{path,dB}} - M$ \\\\ $-94.60 = 43.01 + 0 - L_{\\text{path,dB}} - 30$ \\\\ $L_{\\text{path,dB}} = 43.01 + 30 + 94.60 = 107.61 \\text{ dB}$",
+        "formula_cn": "$P_{r,\\text{dBm}} = \\text{EIRP}_{\\text{dBm}} + G_{r,\\text{dB}} - L_{\\text{path,dB}} - M$ \\\\ $-94.60 = 43.01 + 0 - L_{\\text{path,dB}} - 30$ \\\\ $L_{\\text{path,dB}} = 43.01 + 30 + 94.60 = 107.61 \\text{ dB}$",
+        "explanation": "Solve for allowed path loss",
+        "explanation_cn": "求解允许的路径损耗"
+      },
+      {
+        "id": 8,
+        "title": "Distance from Path Loss",
+        "title_cn": "由路径损耗求距离",
+        "formula": "$L_{\\text{path,dB}} = 20 \\log_{10}\\left(\\frac{4\\pi R}{\\lambda}\\right)$ \\\\ $20 \\log_{10}\\left(\\frac{4\\pi R}{\\lambda}\\right) = 107.61$ \\\\ $\\frac{4\\pi R}{\\lambda} = 10^{107.61/20} = 10^{5.3805} \\approx 2.402 \\times 10^5$ \\\\ $R = \\frac{2.402 \\times 10^5 \\cdot \\lambda}{4\\pi} = \\frac{2.402 \\times 10^5 \\times 0.3166}{12.5664} \\approx 6052 \\text{ m} \\approx 6.05 \\text{ km}$",
+        "formula_cn": "$L_{\\text{path,dB}} = 20 \\log_{10}\\left(\\frac{4\\pi R}{\\lambda}\\right)$ \\\\ $20 \\log_{10}\\left(\\frac{4\\pi R}{\\lambda}\\right) = 107.61$ \\\\ $\\frac{4\\pi R}{\\lambda} = 10^{107.61/20} = 10^{5.3805} \\approx 2.402 \\times 10^5$ \\\\ $R = \\frac{2.402 \\times 10^5 \\cdot \\lambda}{4\\pi} = \\frac{2.402 \\times 10^5 \\times 0.3166}{12.5664} \\approx 6052 \\text{ m} \\approx 6.05 \\text{ km}$",
+        "explanation": "Free-space path loss formula solved for R",
+        "explanation_cn": "自由空间路径损耗公式解出 R"
+      }
+    ],
+    "key_concepts": [
+      "EIRP",
+      "Noise temperature",
+      "Noise figure",
+      "SNR requirement",
+      "Link margin",
+      "Free-space path loss",
+      "Thermal noise",
+      "GSM downlink"
+    ],
+    "key_concepts_cn": [
+      "EIRP",
+      "噪声温度",
+      "噪声系数",
+      "信噪比要求",
+      "链路余量",
+      "自由空间路径损耗",
+      "热噪声",
+      "GSM 下行链路"
+    ]
+  }
+}

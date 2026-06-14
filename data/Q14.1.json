@@ -1,0 +1,44 @@
+{
+  "14.1": {
+    "id": "14.1",
+    "title": "Iridium System Link Margin Analysis",
+    "title_cn": "铱星系统链路余量分析",
+    "description": "The Iridium satellite communication system was designed with a link margin of 16 dB, and was originally advertised as being capable of providing service to users with hand-held phones in vehicles, buildings, and urban areas. Today, after bankruptcy and restructuring, it is recommended that Iridium phones be used outdoors with line of sight. Estimate link margins required for L-band communications into vehicles and buildings. Would Iridium operate reliably? Why was 16 dB chosen?",
+    "description_cn": "铱星卫星通信系统设计链路余量16 dB，最初宣传可服务车辆、建筑、城市区域手持用户。如今建议户外视距使用。估算L波段进入车辆和建筑所需链路余量。系统能否可靠运行？为何设计16 dB余量？",
+    "parameters": {
+      "designed_margin": {"value": 16, "unit": "dB", "description": "Designed link margin of Iridium system"},
+      "frequency_band": {"value": "L-band", "description": "Operating frequency band"}
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Required Link Margins by Environment",
+        "title_cn": "不同环境所需链路余量",
+        "formula": "\\text{Outdoor LOS: } 0-3 \\, \\text{dB}, \\text{ Vehicle: } 6-10 \\, \\text{dB}, \\text{ Building: } 10-25 \\, \\text{dB}, \\text{ Urban: } 20-30 \\, \\text{dB}",
+        "formula_cn": "户外视距: 0-3 dB, 车辆内: 6-10 dB, 建筑内: 10-25 dB, 城区: 20-30 dB",
+        "explanation": "Typical fading and penetration losses for L-band signals",
+        "explanation_cn": "L波段信号的典型衰落和穿透损耗"
+      },
+      {
+        "id": 2,
+        "title": "Reliability Assessment",
+        "title_cn": "可靠性评估",
+        "formula": "16 \\, \\text{dB margin} < \\text{Required for deep indoor and dense urban}",
+        "formula_cn": "16 dB余量 < 深层室内和密集城区需求",
+        "explanation": "16 dB insufficient for non-line-of-sight environments",
+        "explanation_cn": "16 dB不足以支持非视距环境"
+      },
+      {
+        "id": 3,
+        "title": "Reasons for 16 dB Design Choice",
+        "title_cn": "选择16 dB的原因",
+        "formula": "\\text{Cost-power tradeoff} + \\text{Market requirements} + \\text{Terminal limitations}",
+        "formula_cn": "成本-功率权衡 + 市场需求 + 终端限制",
+        "explanation": "Technical, economic, and marketing factors influenced the margin choice",
+        "explanation_cn": "技术、经济和市场因素共同影响余量选择"
+      }
+    ],
+    "key_concepts": ["Link margin", "Fading loss", "Penetration loss", "Satellite communication"],
+    "key_concepts_cn": ["链路余量", "衰落损耗", "穿透损耗", "卫星通信"]
+  }
+}

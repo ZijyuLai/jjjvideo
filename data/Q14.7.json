@@ -1,0 +1,85 @@
+{
+  "14.7": {
+    "id": "14.7",
+    "title": "Derivation of Antenna and Lossy Line Cascade Noise Temperature",
+    "title_cn": "天线与有耗传输线级联噪声温度公式推导",
+    "description": "Derive equation (14.20) by treating the antenna and lossy line as a cascade of two networks whose equivalent noise temperatures are given by (14.18) and (10.15).",
+    "description_cn": "将天线和有损耗传输线视为级联的两个网络，其等效噪声温度分别由 (14.18) 和 (10.15) 给出，推导方程 (14.20)。",
+    "parameters": {
+      "antenna_efficiency": {
+        "expression": "$\\eta_{\\text{rad}} = \\eta$",
+        "description": "Radiation efficiency of antenna"
+      },
+      "source_temperature": {
+        "expression": "$T_{\\text{source}}$",
+        "description": "Brightness temperature of source"
+      },
+      "physical_temperature": {
+        "expression": "$T_p$",
+        "description": "Physical temperature of antenna and line"
+      },
+      "line_loss_factor": {
+        "expression": "$L$",
+        "description": "Loss factor of transmission line (L > 1), gain = 1/L"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Define Network Parameters",
+        "title_cn": "定义网络参数",
+        "formula": "Network 1 (Antenna): $G_1 = \\eta$, $T_{e1} = \\eta T_{\\text{source}} + (1-\\eta)T_p$ \\\\ Network 2 (Lossy line): $G_2 = 1/L$, $T_{e2} = (L-1)T_p$",
+        "formula_cn": "网络1（天线）：$G_1 = \\eta$, $T_{e1} = \\eta T_{\\text{source}} + (1-\\eta)T_p$ \\\\ 网络2（有耗线）：$G_2 = 1/L$, $T_{e2} = (L-1)T_p$",
+        "explanation": "Assume (14.18) gives antenna equivalent noise temperature and (10.15) gives line equivalent noise temperature",
+        "explanation_cn": "假设 (14.18) 给出天线等效噪声温度，(10.15) 给出传输线等效噪声温度"
+      },
+      {
+        "id": 2,
+        "title": "Two-Stage Cascade Noise Formula",
+        "title_cn": "两级级联噪声公式",
+        "formula": "$T_{\\text{total}} = T_{e1} + \\frac{T_{e2}}{G_1}$",
+        "formula_cn": "$T_{\\text{total}} = T_{e1} + \\frac{T_{e2}}{G_1}$",
+        "explanation": "Standard cascaded noise temperature equation referenced to input",
+        "explanation_cn": "标准级联噪声温度方程（参考到输入端）"
+      },
+      {
+        "id": 3,
+        "title": "Substitute into Cascade Formula",
+        "title_cn": "代入级联公式",
+        "formula": "$T_{\\text{total}} = \\left[\\eta T_{\\text{source}} + (1-\\eta)T_p\\right] + \\frac{(L-1)T_p}{\\eta}$",
+        "formula_cn": "$T_{\\text{total}} = \\left[\\eta T_{\\text{source}} + (1-\\eta)T_p\\right] + \\frac{(L-1)T_p}{\\eta}$",
+        "explanation": "Replace $T_{e1}$, $T_{e2}$, and $G_1$",
+        "explanation_cn": "替换 $T_{e1}$、$T_{e2}$ 和 $G_1$"
+      },
+      {
+        "id": 4,
+        "title": "Combine Physical Temperature Terms",
+        "title_cn": "合并物理温度项",
+        "formula": "$T_{\\text{total}} = \\eta T_{\\text{source}} + \\left[1-\\eta + \\frac{L-1}{\\eta}\\right] T_p$",
+        "formula_cn": "$T_{\\text{total}} = \\eta T_{\\text{source}} + \\left[1-\\eta + \\frac{L-1}{\\eta}\\right] T_p$",
+        "explanation": "Group terms containing $T_p$",
+        "explanation_cn": "合并包含 $T_p$ 的项"
+      }
+    ],
+    "result_equation": {
+      "expression": "$T_{\\text{total}} = \\eta T_{\\text{source}} + \\left[1 - \\eta + \\frac{L-1}{\\eta}\\right] T_p$",
+      "description": "Equation (14.20) derived"
+    },
+    "key_concepts": [
+      "Cascaded networks",
+      "Equivalent noise temperature",
+      "Antenna radiation efficiency",
+      "Lossy transmission line",
+      "Noise figure",
+      "Frias formula"
+    ],
+    "key_concepts_cn": [
+      "级联网络",
+      "等效噪声温度",
+      "天线辐射效率",
+      "有耗传输线",
+      "噪声系数",
+      "弗里斯公式"
+    ]
+  }
+}

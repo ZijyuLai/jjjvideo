@@ -3,435 +3,857 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>习题讲解视频生成器</title>
+    <title>AI 智能批改系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #06060a;
+            --bg2: #0c0c14;
+            --surface: rgba(255,255,255,0.04);
+            --surface2: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.08);
+            --border2: rgba(255,255,255,0.14);
+            --text: #f0f0f5;
+            --text2: #8888a0;
+            --text3: #55556a;
+            --cyan: #00e5ff;
+            --cyan-dim: rgba(0,229,255,0.08);
+            --cyan-glow: rgba(0,229,255,0.25);
+            --green: #00e676;
+            --green-dim: rgba(0,230,118,0.08);
+            --amber: #ffc400;
+            --amber-dim: rgba(255,196,0,0.08);
+            --red: #ff5252;
+            --red-dim: rgba(255,82,82,0.08);
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: #0a0a1a;
-            color: #e0e0e0;
+            font-family: 'JetBrains Mono', 'Menlo', monospace;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        .header {
-            width: 100%;
-            padding: 32px 0 16px;
-            text-align: center;
-            background: linear-gradient(180deg, #0f1029 0%, #0a0a1a 100%);
-            border-bottom: 1px solid rgba(79,195,247,0.15);
-        }
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-        .header p {
-            font-size: 14px;
-            color: #7a8ba8;
-        }
-        .main {
-            width: 100%;
-            max-width: 680px;
-            padding: 40px 24px;
-        }
-        .card {
-            background: #111827;
-            border: 1px solid #1e293b;
-            border-radius: 16px;
-            padding: 32px;
-        }
-        .field { margin-bottom: 24px; }
-        .field label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-        .upload-zone {
-            border: 2px dashed #334155;
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .upload-zone:hover, .upload-zone.dragover {
-            border-color: #4fc3f7;
-            background: rgba(79,195,247,0.05);
-        }
-        .upload-zone .icon { font-size: 36px; margin-bottom: 8px; }
-        .upload-zone .hint { font-size: 13px; color: #64748b; }
-        .upload-zone .filename {
-            font-size: 14px;
-            color: #4fc3f7;
-            margin-top: 8px;
-            display: none;
-        }
-        .upload-zone input { display: none; }
-        select {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            color: #e0e0e0;
-            font-size: 15px;
-            appearance: none;
-            cursor: pointer;
-        }
-        select:focus { outline: none; border-color: #4fc3f7; }
-        .select-wrap {
-            position: relative;
-        }
-        .select-wrap::after {
-            content: '▾';
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
+
+        /* ── Grid background ── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
             pointer-events: none;
         }
-        .btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #4fc3f7, #0288d1);
-            color: #0a0a1a;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
+
+        /* ── Scanline ── */
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+            pointer-events: none;
         }
-        .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,195,247,0.3); }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+
+        .page { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 0 28px; }
+
+        /* ── Header ── */
+        .site-header {
+            padding: 100px 0 60px;
+            text-align: center;
+            position: relative;
         }
-        /* Processing overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(10,10,26,0.92);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        .header-line {
+            width: 40px; height: 2px; background: var(--cyan);
+            margin: 0 auto 24px;
+            box-shadow: 0 0 12px var(--cyan-glow);
         }
-        .overlay.active { display: flex; }
-        .spinner {
-            width: 64px; height: 64px;
-            border: 3px solid #1e293b;
-            border-top-color: #4fc3f7;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 24px;
+        .site-header .tag {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--cyan);
+            margin-bottom: 20px;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .overlay .status {
-            font-size: 16px;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-        .overlay .progress-text {
-            font-size: 13px;
-            color: #475569;
-            font-family: monospace;
-        }
-        .progress-bar {
-            width: 280px;
-            height: 4px;
-            background: #1e293b;
-            border-radius: 2px;
-            margin-top: 16px;
-            overflow: hidden;
-        }
-        .progress-bar .fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4fc3f7, #81c784);
-            width: 0%;
-            transition: width 0.3s;
-            border-radius: 2px;
-        }
-        /* Result */
-        .result {
-            display: none;
-            margin-top: 24px;
-        }
-        .result.active { display: block; }
-        .result .title-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .site-header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px; font-weight: 800; color: var(--text);
+            letter-spacing: -0.03em; line-height: 1;
             margin-bottom: 16px;
         }
-        .result .q-label {
-            font-size: 13px;
-            color: #4fc3f7;
-            background: rgba(79,195,247,0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
+        .site-header h1 span { color: var(--cyan); }
+        .site-header p {
+            font-size: 13px; color: var(--text3); line-height: 1.6;
+            max-width: 400px; margin: 0 auto;
         }
-        .result .q-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #fff;
+
+        /* ── Input ── */
+        .input-section { padding-bottom: 80px; }
+        .field { margin-bottom: 24px; }
+        .field-label {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--text3);
+            margin-bottom: 10px;
         }
-        .result video {
-            width: 100%;
-            border-radius: 10px;
-            border: 1px solid #1e293b;
-            background: #000;
+
+        .upload-zone {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 16px; padding: 44px 28px;
+            text-align: center; cursor: pointer;
+            transition: all 0.3s;
+            background: var(--surface);
+            overflow: hidden;
         }
-        .result .actions {
-            display: flex;
-            gap: 12px;
+        .upload-zone::before {
+            content: '';
+            position: absolute; inset: -1px; border-radius: 16px;
+            background: linear-gradient(135deg, transparent 40%, var(--cyan-dim) 50%, transparent 60%);
+            opacity: 0; transition: opacity 0.3s;
+            z-index: -1;
+        }
+        .upload-zone:hover { border-color: var(--cyan); }
+        .upload-zone:hover::before { opacity: 1; }
+        .upload-zone.dragover { border-color: var(--cyan); background: var(--cyan-dim); }
+        .upload-zone.has-file { border-color: var(--cyan); border-style: solid; }
+
+        .upload-icon-box {
+            width: 48px; height: 48px; margin: 0 auto 16px;
+            border: 1px solid var(--border2); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--surface2);
+        }
+        .upload-icon-box svg { width: 22px; height: 22px; color: var(--text2); }
+        .upload-text { font-size: 14px; color: var(--text2); }
+        .upload-text em { font-style: normal; color: var(--cyan); font-weight: 600; }
+        .upload-hint { font-size: 11px; color: var(--text3); margin-top: 6px; }
+        .upload-zone .filename {
+            font-size: 13px; color: var(--cyan); font-weight: 600;
+            margin-top: 12px; display: none;
+        }
+        .upload-zone input { display: none; }
+
+        .select-field {
+            width: 100%; padding: 14px 18px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; color: var(--text);
+            font-size: 13px; font-family: 'JetBrains Mono', monospace;
+            appearance: none; cursor: pointer;
+            transition: border-color 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2355556a' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+        .select-field:focus { outline: none; border-color: var(--cyan); }
+        .select-field option { background: #111; color: var(--text); }
+
+        .btn-primary {
+            width: 100%; padding: 16px 24px;
+            background: var(--cyan); color: #000;
+            border: none; border-radius: 14px;
+            font-size: 13px; font-weight: 700; font-family: 'Syne', sans-serif;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            cursor: pointer; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .btn-primary::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+        .btn-primary:hover::before { transform: translateX(100%); }
+        .btn-primary:hover { box-shadow: 0 0 30px var(--cyan-glow); }
+        .btn-primary:disabled { opacity: 0.15; cursor: not-allowed; }
+        .btn-primary:disabled:hover { box-shadow: none; }
+        .btn-primary:disabled::before { display: none; }
+
+        /* ── Overlay ── */
+        .overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(6,6,10,0.97); z-index: 100;
+            justify-content: center; align-items: center; flex-direction: column;
+            backdrop-filter: blur(20px);
+        }
+        .overlay.active { display: flex; }
+
+        .orbit {
+            position: relative; width: 80px; height: 80px; margin-bottom: 32px;
+        }
+        .orbit-ring {
+            position: absolute; inset: 0; border-radius: 50%;
+            border: 1.5px solid transparent;
+            border-top-color: var(--cyan);
+            animation: orbit-spin 1.2s linear infinite;
+        }
+        .orbit-ring:nth-child(2) {
+            inset: 10px; border-top-color: transparent;
+            border-right-color: var(--cyan);
+            animation-duration: 0.9s; animation-direction: reverse;
+            opacity: 0.5;
+        }
+        .orbit-dot {
+            position: absolute; top: 50%; left: 50%;
+            width: 6px; height: 6px; margin: -3px 0 0 -3px;
+            background: var(--cyan); border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyan-glow);
+        }
+        @keyframes orbit-spin { to { transform: rotate(360deg); } }
+
+        .overlay .status {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px; font-weight: 700; color: var(--text);
+            letter-spacing: 0.03em; margin-bottom: 8px;
+        }
+        .overlay .sub { font-size: 11px; color: var(--text3); letter-spacing: 0.05em; }
+        .progress-track {
+            width: 180px; height: 2px; background: var(--surface2);
+            margin-top: 24px; overflow: hidden; border-radius: 1px;
+        }
+        .progress-track .fill {
+            height: 100%; border-radius: 1px;
+            background: var(--cyan); width: 0%; transition: width 0.6s ease;
+            box-shadow: 0 0 8px var(--cyan-glow);
+        }
+
+        /* ── Results ── */
+        .results { display: none; padding-bottom: 100px; }
+        .results.active { display: block; }
+
+        /* Score hero */
+        .score-hero {
+            text-align: center; padding: 60px 0 80px;
+            position: relative;
+        }
+        .score-hero .q-info {
+            margin-bottom: 40px;
+        }
+        .score-hero .q-tag {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--cyan);
+            background: var(--cyan-dim); padding: 4px 12px;
+            border-radius: 6px; display: inline-block; margin-bottom: 10px;
+        }
+        .score-hero .q-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px; font-weight: 700; color: var(--text);
+            letter-spacing: -0.01em;
+        }
+
+        .score-display {
+            position: relative; display: inline-block;
+            padding: 0 20px;
+        }
+        .score-canvas-wrap {
+            position: absolute; inset: -60px;
+            pointer-events: none;
+        }
+        .score-canvas-wrap canvas { width: 100%; height: 100%; }
+
+        .score-big {
+            font-family: 'Syne', sans-serif;
+            font-size: 140px; font-weight: 900; line-height: 1;
+            letter-spacing: -0.05em;
+            position: relative; z-index: 2;
+        }
+        .score-big.cyan { color: var(--cyan); text-shadow: 0 0 60px var(--cyan-glow), 0 0 120px rgba(0,229,255,0.1); }
+        .score-big.green { color: var(--green); text-shadow: 0 0 60px rgba(0,230,118,0.3), 0 0 120px rgba(0,230,118,0.1); }
+        .score-big.amber { color: var(--amber); text-shadow: 0 0 60px rgba(255,196,0,0.3), 0 0 120px rgba(255,196,0,0.1); }
+        .score-big.red { color: var(--red); text-shadow: 0 0 60px rgba(255,82,82,0.3), 0 0 120px rgba(255,82,82,0.1); }
+
+        .score-suffix {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px; font-weight: 500; color: var(--text3);
+            position: absolute; bottom: 8px; right: -30px;
+        }
+        .score-grade {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
             margin-top: 16px;
         }
-        .btn-secondary {
-            flex: 1;
-            padding: 12px;
-            background: #1e293b;
-            color: #94a3b8;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
+        .score-bar {
+            width: 200px; height: 3px; background: var(--surface2);
+            border-radius: 2px; margin: 20px auto 0; overflow: hidden;
         }
-        .btn-secondary:hover {
-            border-color: #4fc3f7;
-            color: #4fc3f7;
+        .score-bar .fill {
+            height: 100%; border-radius: 2px;
+            width: 0%; transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-download {
-            flex: 1;
-            padding: 12px;
-            background: linear-gradient(135deg, #81c784, #4caf50);
-            color: #0a0a1a;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.2s;
+
+        /* Section divider */
+        .divider {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 20px;
         }
-        .btn-download:hover { box-shadow: 0 4px 16px rgba(129,199,132,0.3); }
-        .log-area {
-            margin-top: 24px;
-            background: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 10px;
-            padding: 16px;
-            font-family: 'Menlo', 'Consolas', monospace;
-            font-size: 12px;
-            color: #475569;
-            max-height: 160px;
-            overflow-y: auto;
-            display: none;
+        .divider-line { flex: 1; height: 1px; background: var(--border); }
+        .divider-label {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--text3); white-space: nowrap;
         }
-        .log-area.active { display: block; }
-        .log-line { margin-bottom: 4px; }
-        .log-line .time { color: #334155; }
-        .log-line .ok { color: #81c784; }
-        .log-line .info { color: #4fc3f7; }
-        .footer {
-            margin-top: auto;
-            padding: 24px;
-            text-align: center;
-            font-size: 12px;
-            color: #334155;
+
+        /* Timeline */
+        .timeline { margin-bottom: 48px; }
+        .timeline-item {
+            display: flex; gap: 16px; padding: 18px 0;
+            position: relative;
         }
+        .timeline-item + .timeline-item { border-top: 1px solid var(--border); }
+        .timeline-dot {
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; flex-shrink: 0;
+            margin-top: 2px; border: 1px solid;
+        }
+        .timeline-dot.correct { background: var(--green-dim); color: var(--green); border-color: rgba(0,230,118,0.2); }
+        .timeline-dot.partial { background: var(--amber-dim); color: var(--amber); border-color: rgba(255,196,0,0.2); }
+        .timeline-dot.wrong { background: var(--red-dim); color: var(--red); border-color: rgba(255,82,82,0.2); }
+        .timeline-dot.missing { background: var(--surface); color: var(--text3); border-color: var(--border); }
+        .timeline-body { flex: 1; min-width: 0; }
+        .timeline-title { font-size: 13px; font-weight: 600; color: var(--text); }
+        .timeline-desc { font-size: 12px; color: var(--text2); margin-top: 5px; line-height: 1.7; }
+
+        /* Glass card */
+        .glass {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px; padding: 28px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+        .glass::before {
+            content: '';
+            position: absolute; top: 0; left: 20px; right: 20px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+        }
+        .glass-title {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--text3);
+            margin-bottom: 14px;
+        }
+        .glass-body { font-size: 13px; color: var(--text2); line-height: 1.8; }
+
+        .tag-list { display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .tag-list li {
+            font-size: 12px; color: var(--text2); line-height: 1.6;
+            padding-left: 20px; position: relative;
+        }
+        .tag-list li::before {
+            content: '>'; position: absolute; left: 0; top: 0;
+            font-weight: 700; font-size: 12px;
+            color: var(--cyan);
+        }
+        .tag-list.green li::before { color: var(--green); }
+
+        /* Collapsible */
+        .collapsible {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; margin-bottom: 16px;
+            overflow: hidden; position: relative;
+        }
+        .collapsible::before {
+            content: '';
+            position: absolute; top: 0; left: 20px; right: 20px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+        }
+        .collapse-trigger {
+            padding: 20px 28px; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: background 0.2s; user-select: none;
+        }
+        .collapse-trigger:hover { background: rgba(255,255,255,0.02); }
+        .collapse-trigger .label {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--text3);
+        }
+        .collapse-trigger .chevron {
+            width: 18px; height: 18px; color: var(--text3);
+            transition: transform 0.3s ease;
+        }
+        .collapse-trigger.open .chevron { transform: rotate(180deg); }
+        .collapse-body { display: none; padding: 0 28px 24px; }
+        .collapse-body.open { display: block; }
+
+        .answer-text {
+            font-size: 12px; color: var(--text2); line-height: 2;
+            white-space: pre-wrap; word-break: break-word;
+            background: var(--bg2); padding: 20px; border-radius: 14px;
+            max-height: 340px; overflow-y: auto;
+            border: 1px solid var(--border);
+        }
+
+        .ref-step { padding: 16px 0; }
+        .ref-step + .ref-step { border-top: 1px solid var(--border); }
+        .ref-step-label {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--cyan);
+            margin-bottom: 8px;
+        }
+        .ref-step-formula {
+            background: var(--bg2); padding: 12px 16px;
+            border-radius: 12px; margin: 8px 0;
+            overflow-x: auto; font-size: 14px;
+            border: 1px solid var(--border);
+        }
+        .ref-step-note { font-size: 12px; color: var(--text3); line-height: 1.7; margin-top: 6px; }
+        .ref-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .ref-tag {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+            color: var(--text3); background: var(--surface2);
+            padding: 4px 12px; border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Video */
+        .video-wrap { margin-bottom: 16px; }
+        .video-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; overflow: hidden; position: relative;
+        }
+        .video-card::before {
+            content: '';
+            position: absolute; top: 0; left: 20px; right: 20px; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            z-index: 1;
+        }
+        .video-card video { width: 100%; display: block; background: #000; }
+        .video-actions { padding: 18px 28px; display: flex; gap: 12px; }
+        .btn-ghost {
+            flex: 1; padding: 12px 18px;
+            background: transparent; color: var(--text2);
+            border: 1px solid var(--border); border-radius: 12px;
+            font-size: 12px; font-weight: 600; font-family: 'Syne', sans-serif;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            cursor: pointer; transition: all 0.2s;
+            text-align: center; text-decoration: none;
+        }
+        .btn-ghost:hover { border-color: var(--text3); color: var(--text); }
+        .btn-solid {
+            flex: 1; padding: 12px 18px;
+            background: var(--cyan); color: #000;
+            border: none; border-radius: 12px;
+            font-size: 12px; font-weight: 700; font-family: 'Syne', sans-serif;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            cursor: pointer; transition: all 0.2s;
+            text-align: center; text-decoration: none;
+        }
+        .btn-solid:hover { box-shadow: 0 0 20px var(--cyan-glow); }
+
+        .site-footer {
+            text-align: center; padding: 40px 0;
+            font-size: 10px; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--text3);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+        /* Animations */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .d1 { animation-delay: 0.08s; opacity: 0; }
+        .d2 { animation-delay: 0.16s; opacity: 0; }
+        .d3 { animation-delay: 0.24s; opacity: 0; }
+        .d4 { animation-delay: 0.32s; opacity: 0; }
+        .d5 { animation-delay: 0.40s; opacity: 0; }
+        .d6 { animation-delay: 0.48s; opacity: 0; }
+        .d7 { animation-delay: 0.56s; opacity: 0; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>习题讲解视频生成器</h1>
-        <p>上传题目文档，输入题号，自动生成推导讲解视频</p>
-    </div>
+    <div class="page">
+        <header class="site-header">
+            <div class="header-line"></div>
+            <div class="tag">Microwave & Smart Antenna</div>
+            <h1>AI <span>批改</span>系统</h1>
+            <p>上传作答文档，AI 自动分析评分并生成讲解视频</p>
+        </header>
 
-    <div class="main">
-        <div class="card">
+        <section class="input-section" id="inputSection">
             <div class="field">
-                <label>题目文档</label>
+                <div class="field-label">作答文档</div>
                 <div class="upload-zone" id="uploadZone">
-                    <div class="icon">📄</div>
-                    <div class="hint">点击或拖拽上传 Word 文档（.docx）</div>
+                    <div class="upload-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+                        </svg>
+                    </div>
+                    <div class="upload-text">拖拽到此处，或 <em>点击上传</em></div>
+                    <div class="upload-hint">.docx</div>
                     <div class="filename" id="fileName"></div>
-                    <input type="file" id="fileInput" accept=".docx,.doc,.pdf">
+                    <input type="file" id="fileInput" accept=".docx">
                 </div>
             </div>
-
             <div class="field">
-                <label>题号</label>
-                <div class="select-wrap">
-                    <select id="questionSelect">
-                        <option value="">— 请选择题目 —</option>
-                        {% for qid, title in titles.items() | sort %}
-                        <option value="{{ qid }}">{{ qid }} {{ title }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+                <div class="field-label">题目</div>
+                <select class="select-field" id="questionSelect">
+                    <option value="">—</option>
+                    {% for qid, title in titles.items() | sort %}
+                    <option value="{{ qid }}">{{ qid }} {{ title }}</option>
+                    {% endfor %}
+                </select>
             </div>
+            <button class="btn-primary" id="analyzeBtn" disabled>开始批改</button>
+        </section>
 
-            <button class="btn" id="generateBtn" disabled>生成讲解视频</button>
-        </div>
-
-        <div class="log-area" id="logArea"></div>
-
-        <div class="result" id="result">
-            <div class="title-bar">
-                <div>
-                    <span class="q-label" id="resultLabel"></span>
+        <section class="results" id="results">
+            <!-- Score -->
+            <div class="score-hero fade-up" id="scoreHero">
+                <div class="q-info">
+                    <div class="q-tag" id="resultLabel"></div>
                     <div class="q-title" id="resultTitle"></div>
                 </div>
+                <div class="score-display">
+                    <div class="score-canvas-wrap"><canvas id="particleCanvas"></canvas></div>
+                    <div class="score-big" id="scoreBig">0</div>
+                    <span class="score-suffix">/ 100</span>
+                </div>
+                <div class="score-grade" id="scoreGrade"></div>
+                <div class="score-bar"><div class="fill" id="scoreBarFill"></div></div>
             </div>
-            <video id="videoPlayer" controls></video>
-            <div class="actions">
-                <button class="btn-secondary" id="newBtn">生成新视频</button>
-                <a class="btn-download" id="downloadBtn" href="#" download>下载视频</a>
+
+            <!-- Student answer -->
+            <div class="collapsible fade-up d1" id="answerSection">
+                <div class="collapse-trigger" id="answerTrigger">
+                    <span class="label">你的作答</span>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </div>
+                <div class="collapse-body" id="answerBody">
+                    <div class="answer-text" id="answerText"></div>
+                </div>
             </div>
-        </div>
+
+            <!-- Step analysis -->
+            <div class="fade-up d2" style="margin-bottom:48px">
+                <div class="divider"><div class="divider-line"></div><div class="divider-label">逐步分析</div><div class="divider-line"></div></div>
+                <div class="timeline" id="stepAnalysis"></div>
+            </div>
+
+            <!-- Comment -->
+            <div class="glass fade-up d3" id="commentCard">
+                <div class="glass-title">总体评价</div>
+                <div class="glass-body" id="overallComment"></div>
+            </div>
+
+            <!-- Strengths -->
+            <div class="glass fade-up d3" id="strengthsCard">
+                <div class="glass-title">作答优点</div>
+                <ul class="tag-list green" id="strengthsList"></ul>
+            </div>
+
+            <!-- Suggestions -->
+            <div class="glass fade-up d4" id="suggestionsCard">
+                <div class="glass-title">学习建议</div>
+                <ul class="tag-list" id="suggestionsList"></ul>
+            </div>
+
+            <!-- Reference -->
+            <div class="collapsible fade-up d5">
+                <div class="collapse-trigger" id="refTrigger">
+                    <span class="label">参考答案</span>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </div>
+                <div class="collapse-body" id="refBody"></div>
+            </div>
+
+            <!-- Video -->
+            <div class="video-wrap fade-up d6" id="videoWrap">
+                <div class="divider"><div class="divider-line"></div><div class="divider-label">讲解视频</div><div class="divider-line"></div></div>
+                <div class="video-card">
+                    <video id="videoPlayer" controls></video>
+                    <div class="video-actions">
+                        <button class="btn-ghost" id="newBtn">重新批改</button>
+                        <a class="btn-solid" id="downloadBtn" href="#" download>下载视频</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="site-footer">Microwave & Smart Antenna — AI Grading System</footer>
     </div>
 
+    <!-- Overlay -->
     <div class="overlay" id="overlay">
-        <div class="spinner"></div>
-        <div class="status" id="overlayStatus">正在解析文档...</div>
-        <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
-        <div class="progress-text" id="progressText"></div>
+        <div class="orbit">
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring"></div>
+            <div class="orbit-dot"></div>
+        </div>
+        <div class="status" id="overlayStatus">初始化</div>
+        <div class="sub" id="overlaySub"></div>
+        <div class="progress-track"><div class="fill" id="progressFill"></div></div>
     </div>
-
-    <div class="footer">Microwave & Smart Antenna — Digital Answer System</div>
 
     <script>
+        // ── Elements ──
         const fileInput = document.getElementById('fileInput');
         const uploadZone = document.getElementById('uploadZone');
         const fileName = document.getElementById('fileName');
         const questionSelect = document.getElementById('questionSelect');
-        const generateBtn = document.getElementById('generateBtn');
+        const analyzeBtn = document.getElementById('analyzeBtn');
         const overlay = document.getElementById('overlay');
         const overlayStatus = document.getElementById('overlayStatus');
+        const overlaySub = document.getElementById('overlaySub');
         const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        const logArea = document.getElementById('logArea');
-        const result = document.getElementById('result');
-        const resultLabel = document.getElementById('resultLabel');
-        const resultTitle = document.getElementById('resultTitle');
-        const videoPlayer = document.getElementById('videoPlayer');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const newBtn = document.getElementById('newBtn');
+        const results = document.getElementById('results');
 
-        // File upload
+        // ── Upload ──
         uploadZone.addEventListener('click', () => fileInput.click());
         uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
         uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-        uploadZone.addEventListener('drop', e => {
-            e.preventDefault();
-            uploadZone.classList.remove('dragover');
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                updateFileDisplay();
-            }
-        });
-        fileInput.addEventListener('change', updateFileDisplay);
-
-        function updateFileDisplay() {
+        uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('dragover'); if (e.dataTransfer.files.length) { fileInput.files = e.dataTransfer.files; updateFile(); } });
+        fileInput.addEventListener('change', updateFile);
+        function updateFile() {
             if (fileInput.files.length) {
                 fileName.textContent = fileInput.files[0].name;
                 fileName.style.display = 'block';
+                uploadZone.classList.add('has-file');
             }
             checkReady();
         }
-
         questionSelect.addEventListener('change', checkReady);
+        function checkReady() { analyzeBtn.disabled = !(questionSelect.value && fileInput.files.length); }
 
-        function checkReady() {
-            generateBtn.disabled = !questionSelect.value;
-        }
-
-        // Generate
-        generateBtn.addEventListener('click', async () => {
+        // ── Analyze ──
+        analyzeBtn.addEventListener('click', async () => {
             const qnum = questionSelect.value;
-            if (!qnum) return;
-
-            // Show overlay
+            if (!qnum || !fileInput.files.length) return;
+            results.classList.remove('active');
             overlay.classList.add('active');
-            result.classList.remove('active');
-            logArea.classList.add('active');
-            logArea.innerHTML = '';
-            generateBtn.disabled = true;
-
+            analyzeBtn.disabled = true;
             const stages = [
-                { text: '正在解析文档结构...', progress: 15, delay: 800 },
-                { text: '提取题目公式与参数...', progress: 30, delay: 1000 },
-                { text: '构建推导步骤模型...', progress: 50, delay: 900 },
-                { text: '渲染 LaTeX 公式动画...', progress: 70, delay: 1200 },
-                { text: '合成视频编码中...', progress: 85, delay: 800 },
-                { text: '生成完成！', progress: 100, delay: 400 },
+                { text: '提取文档内容', sub: '解析 Word 结构与 OMML 公式', progress: 15, delay: 700 },
+                { text: '加载参考答案', sub: '匹配题库数据', progress: 30, delay: 500 },
+                { text: 'AI 分析评分', sub: '对比作答与参考答案', progress: 60, delay: 1800 },
+                { text: '生成讲解视频', sub: '准备动画渲染', progress: 85, delay: 600 },
             ];
-
-            for (const stage of stages) {
-                overlayStatus.textContent = stage.text;
-                progressFill.style.width = stage.progress + '%';
-                addLog(stage.text, 'info');
-                await sleep(stage.delay);
+            for (const s of stages) {
+                overlayStatus.textContent = s.text;
+                overlaySub.textContent = s.sub;
+                progressFill.style.width = s.progress + '%';
+                await sleep(s.delay);
             }
-
-            // Actual API call
             const formData = new FormData();
             formData.append('question', qnum);
-            if (fileInput.files.length) formData.append('doc', fileInput.files[0]);
-
+            formData.append('doc', fileInput.files[0]);
             try {
-                const resp = await fetch('/api/generate', { method: 'POST', body: formData });
+                const resp = await fetch('/api/analyze', { method: 'POST', body: formData });
                 const data = await resp.json();
-
+                overlayStatus.textContent = '完成';
+                progressFill.style.width = '100%';
+                await sleep(500);
                 overlay.classList.remove('active');
-
-                if (data.status === 'success') {
-                    addLog('视频生成成功 ✓', 'ok');
-                    resultLabel.textContent = data.question;
-                    resultTitle.textContent = data.title;
-                    videoPlayer.src = data.video_url;
-                    downloadBtn.href = data.download_url;
-                    result.classList.add('active');
-                } else {
-                    addLog('错误: ' + data.error, 'info');
-                    alert(data.error);
-                }
+                if (data.error) alert(data.error);
+                else showResults(data);
             } catch (e) {
                 overlay.classList.remove('active');
-                addLog('请求失败: ' + e.message, 'info');
                 alert('请求失败: ' + e.message);
             }
-
-            generateBtn.disabled = false;
+            analyzeBtn.disabled = false;
         });
 
-        newBtn.addEventListener('click', () => {
-            result.classList.remove('active');
-            videoPlayer.src = '';
+        // ── Particle burst on score ──
+        function burstParticles(canvas, color) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+            const W = canvas.offsetWidth, H = canvas.offsetHeight;
+            const cx = W / 2, cy = H / 2;
+            const particles = [];
+            for (let i = 0; i < 40; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 1.5 + Math.random() * 3;
+                particles.push({
+                    x: cx, y: cy,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1,
+                    size: 1.5 + Math.random() * 2,
+                });
+            }
+            let frame = 0;
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                let alive = false;
+                for (const p of particles) {
+                    p.x += p.vx; p.y += p.vy;
+                    p.vx *= 0.97; p.vy *= 0.97;
+                    p.life -= 0.015;
+                    if (p.life > 0) {
+                        alive = true;
+                        ctx.globalAlpha = p.life * 0.8;
+                        ctx.fillStyle = color;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                ctx.globalAlpha = 1;
+                frame++;
+                if (alive && frame < 120) requestAnimationFrame(draw);
+                else ctx.clearRect(0, 0, W, H);
+            }
+            draw();
+        }
+
+        // ── Score count-up ──
+        function countUp(el, target, duration) {
+            const start = performance.now();
+            function update(now) {
+                const t = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                el.textContent = Math.round(ease * target);
+                if (t < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // ── Show results ──
+        function showResults(data) {
+            document.getElementById('resultLabel').textContent = data.question;
+            document.getElementById('resultTitle').textContent = data.title;
+
+            if (data.student_text) {
+                const el = document.getElementById('answerText');
+                el.textContent = data.student_text;
+                renderMath(el);
+                document.getElementById('answerSection').style.display = 'block';
+            } else {
+                document.getElementById('answerSection').style.display = 'none';
+            }
+
+            const score = data.score || 0;
+            const big = document.getElementById('scoreBig');
+            const scoreColor = score >= 80 ? 'green' : score >= 60 ? 'amber' : 'red';
+            big.className = 'score-big ' + scoreColor;
+            countUp(big, score, 1200);
+
+            const cssColor = score >= 80 ? 'var(--green)' : score >= 60 ? 'var(--amber)' : 'var(--red)';
+            const grade = score >= 85 ? '优秀' : score >= 70 ? '良好' : score >= 50 ? '及格' : '需努力';
+            const gradeEl = document.getElementById('scoreGrade');
+            gradeEl.textContent = grade;
+            gradeEl.style.color = cssColor;
+
+            const barFill = document.getElementById('scoreBarFill');
+            barFill.style.background = cssColor;
+            barFill.style.boxShadow = `0 0 10px ${cssColor}`;
+            setTimeout(() => { barFill.style.width = score + '%'; }, 100);
+
+            // Particles
+            setTimeout(() => {
+                const canvas = document.getElementById('particleCanvas');
+                const pColor = score >= 80 ? '#00e676' : score >= 60 ? '#ffc400' : '#ff5252';
+                burstParticles(canvas, pColor);
+            }, 300);
+
+            // Steps
+            const stepDiv = document.getElementById('stepAnalysis');
+            stepDiv.innerHTML = '';
+            const icons = { correct: '✓', partial: '!', wrong: '✗', missing: '—' };
+            (data.step_analysis || []).forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.innerHTML = `
+                    <div class="timeline-dot ${s.status}">${icons[s.status] || '?'}</div>
+                    <div class="timeline-body">
+                        <div class="timeline-title">步骤${s.step}: ${s.title}</div>
+                        <div class="timeline-desc">${s.comment}</div>
+                    </div>`;
+                stepDiv.appendChild(item);
+            });
+
+            document.getElementById('overallComment').textContent = data.overall_comment || '';
+
+            const strengthsCard = document.getElementById('strengthsCard');
+            const strengthsList = document.getElementById('strengthsList');
+            strengthsList.innerHTML = '';
+            if (data.strengths && data.strengths.length) {
+                strengthsCard.style.display = 'block';
+                data.strengths.forEach(s => { const li = document.createElement('li'); li.textContent = s; strengthsList.appendChild(li); });
+            } else { strengthsCard.style.display = 'none'; }
+
+            const sugList = document.getElementById('suggestionsList');
+            sugList.innerHTML = '';
+            (data.suggestions || []).forEach(s => { const li = document.createElement('li'); li.textContent = s; sugList.appendChild(li); });
+
+            const refBody = document.getElementById('refBody');
+            refBody.innerHTML = '';
+            if (data.reference) {
+                const ref = data.reference;
+                (ref.steps || []).forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'ref-step';
+                    let html = `<div class="ref-step-label">步骤${s.id} · ${s.title}</div>`;
+                    if (s.formula) html += `<div class="ref-step-formula">$$ ${s.formula} $$</div>`;
+                    if (s.result) html += `<div class="ref-step-formula">$$ ${s.result} $$</div>`;
+                    if (s.explanation) html += `<div class="ref-step-note">${s.explanation}</div>`;
+                    div.innerHTML = html;
+                    refBody.appendChild(div);
+                });
+                if (ref.concepts && ref.concepts.length) {
+                    const tagDiv = document.createElement('div');
+                    tagDiv.className = 'ref-tags';
+                    ref.concepts.forEach(c => { const span = document.createElement('span'); span.className = 'ref-tag'; span.textContent = c; tagDiv.appendChild(span); });
+                    refBody.appendChild(tagDiv);
+                }
+                renderMath(refBody);
+            }
+
+            const videoWrap = document.getElementById('videoWrap');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const downloadBtn = document.getElementById('downloadBtn');
+            if (data.video_url) {
+                videoWrap.style.display = 'block';
+                videoPlayer.src = data.video_url;
+                downloadBtn.href = data.download_url;
+            } else { videoWrap.style.display = 'none'; }
+
+            results.classList.add('active');
+            document.getElementById('scoreHero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ── Toggles ──
+        document.getElementById('answerTrigger').addEventListener('click', function() {
+            this.classList.toggle('open');
+            document.getElementById('answerBody').classList.toggle('open');
+        });
+        document.getElementById('refTrigger').addEventListener('click', function() {
+            this.classList.toggle('open');
+            document.getElementById('refBody').classList.toggle('open');
+        });
+        document.getElementById('newBtn').addEventListener('click', () => {
+            results.classList.remove('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        function addLog(text, cls) {
-            const now = new Date().toLocaleTimeString();
-            logArea.innerHTML += `<div class="log-line"><span class="time">[${now}]</span> <span class="${cls}">${text}</span></div>`;
-            logArea.scrollTop = logArea.scrollHeight;
-        }
-
         function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+        function renderMath(el) {
+            const tex = el.innerHTML;
+            let out = tex.replace(/\$\$(.*?)\$\$/g, (_, t) => {
+                try { return katex.renderToString(t.trim(), { displayMode: true, throwOnError: false }); }
+                catch(e) { return `$$${t}$$`; }
+            });
+            out = out.replace(/\$([^$]+?)\$/g, (_, t) => {
+                try { return katex.renderToString(t.trim(), { displayMode: false, throwOnError: false }); }
+                catch(e) { return `$${t}$`; }
+            });
+            el.innerHTML = out;
+        }
     </script>
 </body>
 </html>

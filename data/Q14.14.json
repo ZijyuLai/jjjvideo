@@ -1,0 +1,100 @@
+{
+  "14.14": {
+    "id": "14.14",
+    "title": "Mariner 10 Maximum Data Rate Calculation",
+    "title_cn": "水手10号最大数据速率计算",
+    "description": "The Mariner 10 spacecraft used to explore the planet Mercury in 1974 used BPSK with $P_b = 0.05$ ($E_b/n_0 = 1.4$ dB) to transmit image data back to Earth (a distance of about $1.6 \\times 10^8$ km). The spacecraft transmitter operated at 2.295 GHz, with an antenna gain of 27.6 dB and a carrier power of 16.8 W. The ground station had an antenna with a gain of 61.3 dB and an overall system noise temperature of 13.5 K. Find the maximum possible data rate.",
+    "description_cn": "1974 年用于探索水星的水手 10 号航天器使用 BPSK 调制，误码率 $P_b = 0.05$（对应 $E_b/n_0 = 1.4$ dB）将图像数据传回地球（距离约 $1.6 \\times 10^8$ km）。航天器发射机工作频率为 2.295 GHz，天线增益为 27.6 dB，载波功率为 16.8 W。地面站天线增益为 61.3 dB，系统总噪声温度为 13.5 K。求最大可能的数据速率。",
+    "parameters": {
+      "distance": {
+        "expression": "$R = 1.6 \\times 10^8 \\text{ km} = 1.6 \\times 10^{11} \\text{ m}$",
+        "description": "Earth-Mercury distance"
+      },
+      "frequency": {
+        "expression": "$f = 2.295 \\text{ GHz} = 2.295 \\times 10^9 \\text{ Hz}$",
+        "description": "Carrier frequency"
+      },
+      "transmit_power": {
+        "expression": "$P_t = 16.8 \\text{ W}$",
+        "description": "Spacecraft transmitter power"
+      },
+      "transmit_antenna_gain": {
+        "expression": "$G_t = 27.6 \\text{ dB} \\approx 575.44$",
+        "description": "Spacecraft antenna gain"
+      },
+      "receive_antenna_gain": {
+        "expression": "$G_r = 61.3 \\text{ dB} \\approx 1.349 \\times 10^6$",
+        "description": "Ground station antenna gain"
+      },
+      "system_noise_temperature": {
+        "expression": "$T_{\\text{sys}} = 13.5 \\text{ K}$",
+        "description": "Overall system noise temperature"
+      },
+      "EbN0_dB": {
+        "expression": "$E_b/N_0 = 1.4 \\text{ dB}$",
+        "value_linear": "1.380",
+        "description": "Required energy per bit to noise density ratio"
+      },
+      "ber": {
+        "expression": "$P_b = 0.05$",
+        "description": "Bit error rate for BPSK"
+      },
+      "boltzmann_constant": {
+        "expression": "$k = 1.38 \\times 10^{-23} \\text{ J/K}$",
+        "description": "Boltzmann constant"
+      },
+      "speed_of_light": {
+        "expression": "$c = 3 \\times 10^8 \\text{ m/s}$",
+        "description": "Speed of light"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{2.295 \\times 10^9} \\approx 0.1307 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{2.295 \\times 10^9} \\approx 0.1307 \\text{ m}$"
+      },
+      {
+        "id": 2,
+        "title": "Received Power Calculation (Friis Formula)",
+        "title_cn": "接收功率计算（弗里斯公式）",
+        "formula": "$P_r = P_t G_t G_r \\left(\\frac{\\lambda}{4\\pi R}\\right)^2$ \\\\ $\\frac{\\lambda}{4\\pi R} = \\frac{0.1307}{4\\pi \\times 1.6 \\times 10^{11}} \\approx 6.50 \\times 10^{-14}$ \\\\ $\\left(\\frac{\\lambda}{4\\pi R}\\right)^2 \\approx 4.225 \\times 10^{-27}$ \\\\ $P_r = 16.8 \\times 575.44 \\times 1.349 \\times 10^6 \\times 4.225 \\times 10^{-27} \\approx 5.512 \\times 10^{-17} \\text{ W}$",
+        "formula_cn": "$P_r = P_t G_t G_r \\left(\\frac{\\lambda}{4\\pi R}\\right)^2$ \\\\ $\\frac{\\lambda}{4\\pi R} = \\frac{0.1307}{4\\pi \\times 1.6 \\times 10^{11}} \\approx 6.50 \\times 10^{-14}$ \\\\ $\\left(\\frac{\\lambda}{4\\pi R}\\right)^2 \\approx 4.225 \\times 10^{-27}$ \\\\ $P_r = 16.8 \\times 575.44 \\times 1.349 \\times 10^6 \\times 4.225 \\times 10^{-27} \\approx 5.512 \\times 10^{-17} \\text{ W}$"
+      },
+      {
+        "id": 3,
+        "title": "Noise Power Spectral Density",
+        "title_cn": "噪声功率谱密度",
+        "formula": "$N_0 = k T_{\\text{sys}} = 1.38 \\times 10^{-23} \\times 13.5 \\approx 1.863 \\times 10^{-22} \\text{ W/Hz}$",
+        "formula_cn": "$N_0 = k T_{\\text{sys}} = 1.38 \\times 10^{-23} \\times 13.5 \\approx 1.863 \\times 10^{-22} \\text{ W/Hz}$"
+      },
+      {
+        "id": 4,
+        "title": "Data Rate from Eb/N0 Relation",
+        "title_cn": "由 Eb/N0 关系求数据速率",
+        "formula": "$\\frac{E_b}{N_0} = \\frac{P_r}{N_0 R_b} \\Rightarrow R_b = \\frac{P_r}{N_0 (E_b/N_0)}$ \\\\ $R_b = \\frac{5.512 \\times 10^{-17}}{(1.863 \\times 10^{-22}) \\times 1.380} \\approx \\frac{5.512 \\times 10^{-17}}{2.571 \\times 10^{-22}} \\approx 2.144 \\times 10^5 \\text{ bit/s} \\approx 214 \\text{ kbit/s}$",
+        "formula_cn": "$\\frac{E_b}{N_0} = \\frac{P_r}{N_0 R_b} \\Rightarrow R_b = \\frac{P_r}{N_0 (E_b/N_0)}$ \\\\ $R_b = \\frac{5.512 \\times 10^{-17}}{(1.863 \\times 10^{-22}) \\times 1.380} \\approx \\frac{5.512 \\times 10^{-17}}{2.571 \\times 10^{-22}} \\approx 2.144 \\times 10^5 \\text{ bit/s} \\approx 214 \\text{ kbit/s}$"
+      }
+    ],
+    "key_concepts": [
+      "BPSK modulation",
+      "Eb/N0 vs bit error rate",
+      "Friis transmission equation",
+      "Noise power spectral density",
+      "Data rate",
+      "Deep space communications",
+      "Mariner 10"
+    ],
+    "key_concepts_cn": [
+      "BPSK 调制",
+      "Eb/N0 与误码率关系",
+      "弗里斯传输公式",
+      "噪声功率谱密度",
+      "数据速率",
+      "深空通信",
+      "水手10号"
+    ]
+  }
+}

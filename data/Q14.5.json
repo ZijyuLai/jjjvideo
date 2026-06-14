@@ -1,0 +1,102 @@
+{
+  "14.5": {
+    "id": "14.5",
+    "title": "Reflector Antenna Efficiency and Beamwidth Calculation",
+    "title_cn": "反射面天线效率与波束宽度计算",
+    "description": "A reflector antenna used for a cellular base station backhaul radio link operates at 38 GHz, with a gain of 39 dB, a radiation efficiency of 90%, and a diameter of 12 inches. (a) Find the aperture efficiency of this antenna. (b) Find the half-power beamwidth, assuming the beamwidths are identical in the two principal planes.",
+    "description_cn": "一个用于蜂窝基站回传无线电链路的反射面天线，工作频率为 38 GHz，增益为 39 dB，辐射效率为 90%，直径为 12 英寸。(a) 求该天线的口径效率。(b) 假设两个主平面上的波束宽度相同，求半功率波束宽度。",
+    "parameters": {
+      "frequency": {
+        "expression": "$f = 38 \\text{ GHz}$",
+        "value_hz": "3.8e10",
+        "description": "Operating frequency"
+      },
+      "gain_dB": {
+        "expression": "$G = 39 \\text{ dB}$",
+        "value_linear": "7943.28",
+        "description": "Antenna gain"
+      },
+      "radiation_efficiency": {
+        "expression": "$\\eta_{\\text{rad}} = 90\\% = 0.90$",
+        "description": "Radiation efficiency"
+      },
+      "diameter": {
+        "expression": "$d = 12 \\text{ inches}$",
+        "value_meters": "0.3048",
+        "description": "Antenna diameter"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{38 \\times 10^9} \\approx 0.007895 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{38 \\times 10^9} \\approx 0.007895 \\text{ m}$",
+        "explanation": "Using speed of light $c=3\\times10^8\\text{ m/s}$",
+        "explanation_cn": "使用光速 $c=3\\times10^8\\text{ m/s}$"
+      },
+      {
+        "id": 2,
+        "title": "Convert Gain to Linear Scale",
+        "title_cn": "增益转换为线性值",
+        "formula": "$G_{\\text{lin}} = 10^{39/10} = 10^{3.9} \\approx 7943.28$",
+        "formula_cn": "$G_{\\text{lin}} = 10^{39/10} = 10^{3.9} \\approx 7943.28$",
+        "explanation": "$G_{\\text{dB}} = 10\\log_{10}(G_{\\text{lin}})$",
+        "explanation_cn": "$G_{\\text{dB}} = 10\\log_{10}(G_{\\text{lin}})$"
+      },
+      {
+        "id": 3,
+        "title": "Compute Directivity from Gain",
+        "title_cn": "由增益计算方向性系数",
+        "formula": "$D = \\frac{G}{\\eta_{\\text{rad}}} = \\frac{7943.28}{0.90} \\approx 8825.87$",
+        "formula_cn": "$D = \\frac{G}{\\eta_{\\text{rad}}} = \\frac{7943.28}{0.90} \\approx 8825.87$",
+        "explanation": "$G = \\eta_{\\text{rad}} \\cdot D$",
+        "explanation_cn": "$G = \\eta_{\\text{rad}} \\cdot D$"
+      },
+      {
+        "id": 4,
+        "title": "Compute $\\frac{\\pi d}{\\lambda}$",
+        "title_cn": "计算 $\\frac{\\pi d}{\\lambda}$",
+        "formula": "$\\frac{\\pi d}{\\lambda} = \\frac{\\pi \\times 0.3048}{0.007895} \\approx 121.29$",
+        "formula_cn": "$\\frac{\\pi d}{\\lambda} = \\frac{\\pi \\times 0.3048}{0.007895} \\approx 121.29$",
+        "explanation": "Substitute diameter in meters and wavelength",
+        "explanation_cn": "代入以米为单位的直径和波长"
+      },
+      {
+        "id": 5,
+        "title": "Aperture Efficiency Calculation",
+        "title_cn": "口径效率计算",
+        "formula": "$\\eta_{\\text{ap}} = \\frac{D}{(\\pi d/\\lambda)^2} = \\frac{8825.87}{(121.29)^2} \\approx \\frac{8825.87}{14711.3} \\approx 0.600 = 60.0\\%$",
+        "formula_cn": "$\\eta_{\\text{ap}} = \\frac{D}{(\\pi d/\\lambda)^2} = \\frac{8825.87}{(121.29)^2} \\approx \\frac{8825.87}{14711.3} \\approx 0.600 = 60.0\\%$",
+        "explanation": "$D = \\eta_{\\text{ap}} (\\pi d/\\lambda)^2$",
+        "explanation_cn": "$D = \\eta_{\\text{ap}} (\\pi d/\\lambda)^2$"
+      },
+      {
+        "id": 6,
+        "title": "Half-Power Beamwidth Calculation",
+        "title_cn": "半功率波束宽度计算",
+        "formula": "$\\text{HPBW} \\approx 70^\\circ \\cdot \\frac{\\lambda}{d} = 70^\\circ \\times \\frac{0.007895}{0.3048} \\approx 70^\\circ \\times 0.02590 \\approx 1.81^\\circ$",
+        "formula_cn": "$\\text{HPBW} \\approx 70^\\circ \\cdot \\frac{\\lambda}{d} = 70^\\circ \\times \\frac{0.007895}{0.3048} \\approx 70^\\circ \\times 0.02590 \\approx 1.81^\\circ$",
+        "explanation": "Approximation for circular aperture: HPBW (in degrees) $\\approx 70\\lambda/d$",
+        "explanation_cn": "圆形口径近似公式：HPBW（度）$\\approx 70\\lambda/d$"
+      }
+    ],
+    "key_concepts": [
+      "Reflector antenna",
+      "Aperture efficiency",
+      "Radiation efficiency",
+      "Directivity",
+      "Gain",
+      "Half-power beamwidth"
+    ],
+    "key_concepts_cn": [
+      "反射面天线",
+      "口径效率",
+      "辐射效率",
+      "方向性系数",
+      "增益",
+      "半功率波束宽度"
+    ]
+  }
+}

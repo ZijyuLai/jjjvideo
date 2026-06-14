@@ -1,0 +1,62 @@
+{
+  "14.3": {
+    "id": "14.3",
+    "title": "Monopole Antenna Directivity Calculation on Ground Plane",
+    "title_cn": "接地平面单极子天线方向性系数计算",
+    "description": "A monopole antenna on a large ground plane has a far-field pattern function given by $F_\\theta(\\theta, \\phi) = A \\sin \\theta$ for $0 \\leq \\theta \\leq 90^\\circ$. The radiated field is zero for $90^\\circ \\leq \\theta \\leq 180^\\circ$. Find the directivity (in dB) of this antenna.",
+    "description_cn": "一个位于大型接地平面上的单极子天线，其远场方向图函数为 $F_\\theta(\\theta, \\phi) = A \\sin \\theta$，其中 $0 \\leq \\theta \\leq 90^\\circ$，在 $90^\\circ \\leq \\theta \\leq 180^\\circ$ 范围内辐射场为零。求该天线的方向性系数（以 dB 表示）。",
+    "parameters": {
+      "pattern_func": {
+        "expression": "$F_\\theta(\\theta,\\phi)=A\\sin\\theta$",
+        "description": "Far-field amplitude pattern for 0≤θ≤90°"
+      },
+      "angular_range": {
+        "expression": "$0 \\leq \\theta \\leq 90^\\circ,\\quad 0 \\leq \\phi \\leq 360^\\circ$",
+        "description": "Radiation exists only in upper hemisphere"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Main Beam Direction Location",
+        "title_cn": "主波束指向求解",
+        "formula": "$\\theta = 90^\\circ$",
+        "formula_cn": "$\\theta = 90^\\circ$（水平方向）",
+        "explanation": "$\\sin\\theta$ achieves maximum at $\\theta=90^\\circ$ within the range $0^\\circ \\leq \\theta \\leq 90^\\circ$",
+        "explanation_cn": "在 $0^\\circ \\leq \\theta \\leq 90^\\circ$ 范围内，$\\sin\\theta$ 在 $\\theta=90^\\circ$ 处取得最大值"
+      },
+      {
+        "id": 2,
+        "title": "Directivity Calculation",
+        "title_cn": "方向性系数计算",
+        "formula": "$D = \\frac{4\\pi |F_{\\text{max}}|^2}{\\int_0^{2\\pi}\\int_0^{\\pi/2} |F(\\theta,\\phi)|^2 \\sin\\theta \\, d\\theta d\\phi} = 3$",
+        "formula_cn": "$D = \\frac{4\\pi |F_{\\text{max}}|^2}{\\int_0^{2\\pi}\\int_0^{\\pi/2} |F(\\theta,\\phi)|^2 \\sin\\theta \\, d\\theta d\\phi} = 3$",
+        "explanation": "Substitute $F(\\theta,\\phi)=A\\sin\\theta$, $F_{\\text{max}}=A$, compute integral: $\\int_0^{2\\pi} d\\phi \\int_0^{\\pi/2} A^2 \\sin^3\\theta \\, d\\theta = 2\\pi A^2 \\cdot \\frac{2}{3} = \\frac{4\\pi A^2}{3}$, then $D = \\frac{4\\pi A^2}{4\\pi A^2/3} = 3$",
+        "explanation_cn": "代入 $F(\\theta,\\phi)=A\\sin\\theta$，$F_{\\text{max}}=A$，计算积分：$\\int_0^{2\\pi} d\\phi \\int_0^{\\pi/2} A^2 \\sin^3\\theta \\, d\\theta = 2\\pi A^2 \\cdot \\frac{2}{3} = \\frac{4\\pi A^2}{3}$，则 $D = \\frac{4\\pi A^2}{4\\pi A^2/3} = 3$"
+      },
+      {
+        "id": 3,
+        "title": "Directivity in Decibels",
+        "title_cn": "方向性系数的 dB 表示",
+        "formula": "$D_{\\text{dB}} = 10\\log_{10}(D) = 10\\log_{10}(3) \\approx 4.771 \\text{ dB}$",
+        "formula_cn": "$D_{\\text{dB}} = 10\\log_{10}(D) = 10\\log_{10}(3) \\approx 4.771 \\text{ dB}$",
+        "explanation": "Convert dimensionless directivity to decibels using $10\\log_{10}(\\cdot)$",
+        "explanation_cn": "使用 $10\\log_{10}(\\cdot)$ 将无量纲方向性系数转换为分贝值"
+      }
+    ],
+    "key_concepts": [
+      "Monopole antenna",
+      "Ground plane effect",
+      "Hemispherical radiation",
+      "Directivity",
+      "Decibels"
+    ],
+    "key_concepts_cn": [
+      "单极子天线",
+      "接地平面效应",
+      "半球辐射",
+      "方向性系数",
+      "分贝"
+    ]
+  }
+}

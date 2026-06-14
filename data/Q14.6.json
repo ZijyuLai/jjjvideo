@@ -1,0 +1,88 @@
+{
+  "14.6": {
+    "id": "14.6",
+    "title": "Antenna Radiation Efficiency from Noise Temperature",
+    "title_cn": "由噪声温度计算天线辐射效率",
+    "description": "A high-gain antenna array operating at 2.4 GHz is pointed toward a region of the sky for which the background can be assumed to be at a uniform temperature of 5 K. A noise temperature of 105 K is measured for the antenna temperature. If the physical temperature of the antenna is 290 K, what is its radiation efficiency?",
+    "description_cn": "一个工作频率为 2.4 GHz 的高增益天线阵列，指向天空中一个背景可视为均匀温度 5 K 的区域。测得的天线噪声温度为 105 K。若天线的物理温度为 290 K，求其辐射效率。",
+    "parameters": {
+      "source_temperature": {
+        "expression": "$T_{\\text{source}} = 5 \\text{ K}$",
+        "description": "Brightness temperature of the sky region"
+      },
+      "antenna_noise_temperature": {
+        "expression": "$T_A = 105 \\text{ K}$",
+        "description": "Measured antenna noise temperature"
+      },
+      "physical_temperature": {
+        "expression": "$T_p = 290 \\text{ K}$",
+        "description": "Physical temperature of the antenna structure"
+      },
+      "frequency": {
+        "expression": "$f = 2.4 \\text{ GHz}$",
+        "description": "Operating frequency (not directly used in efficiency formula)"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Antenna Noise Temperature Model",
+        "title_cn": "天线噪声温度模型",
+        "formula": "$T_A = \\eta_{\\text{rad}} T_{\\text{source}} + (1 - \\eta_{\\text{rad}}) T_p$",
+        "formula_cn": "$T_A = \\eta_{\\text{rad}} T_{\\text{source}} + (1 - \\eta_{\\text{rad}}) T_p$",
+        "explanation": "For a lossy antenna, the noise temperature consists of external source radiation attenuated by efficiency and thermal noise from physical losses",
+        "explanation_cn": "对于有耗天线，噪声温度由经效率衰减的外部源辐射和物理损耗产生的热噪声组成"
+      },
+      {
+        "id": 2,
+        "title": "Substitute Known Values",
+        "title_cn": "代入已知数值",
+        "formula": "$105 = \\eta_{\\text{rad}} \\cdot 5 + (1 - \\eta_{\\text{rad}}) \\cdot 290$",
+        "formula_cn": "$105 = \\eta_{\\text{rad}} \\cdot 5 + (1 - \\eta_{\\text{rad}}) \\cdot 290$",
+        "explanation": "Insert $T_A=105$, $T_{\\text{source}}=5$, $T_p=290$",
+        "explanation_cn": "代入 $T_A=105$，$T_{\\text{source}}=5$，$T_p=290$"
+      },
+      {
+        "id": 3,
+        "title": "Expand and Simplify",
+        "title_cn": "展开并化简",
+        "formula": "$105 = 5\\eta_{\\text{rad}} + 290 - 290\\eta_{\\text{rad}} = 290 - 285\\eta_{\\text{rad}}$",
+        "formula_cn": "$105 = 5\\eta_{\\text{rad}} + 290 - 290\\eta_{\\text{rad}} = 290 - 285\\eta_{\\text{rad}}$",
+        "explanation": "Combine like terms",
+        "explanation_cn": "合并同类项"
+      },
+      {
+        "id": 4,
+        "title": "Solve for Radiation Efficiency",
+        "title_cn": "求解辐射效率",
+        "formula": "$285\\eta_{\\text{rad}} = 290 - 105 = 185$",
+        "formula_cn": "$285\\eta_{\\text{rad}} = 290 - 105 = 185$",
+        "explanation": "Isolate the efficiency term",
+        "explanation_cn": "分离效率项"
+      },
+      {
+        "id": 5,
+        "title": "Final Calculation",
+        "title_cn": "最终计算",
+        "formula": "$\\eta_{\\text{rad}} = \\frac{185}{285} \\approx 0.6491 \\approx 64.9\\%$",
+        "formula_cn": "$\\eta_{\\text{rad}} = \\frac{185}{285} \\approx 0.6491 \\approx 64.9\\%$",
+        "explanation": "Perform division and convert to percentage",
+        "explanation_cn": "执行除法并转换为百分数"
+      }
+    ],
+    "key_concepts": [
+      "Antenna noise temperature",
+      "Radiation efficiency",
+      "Lossy antenna model",
+      "Physical temperature",
+      "Background brightness temperature"
+    ],
+    "key_concepts_cn": [
+      "天线噪声温度",
+      "辐射效率",
+      "有耗天线模型",
+      "物理温度",
+      "背景亮温"
+    ]
+  }
+}

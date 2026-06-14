@@ -1,0 +1,53 @@
+{
+  "14.2": {
+    "id": "14.2",
+    "title": "Antenna Beamwidth, Directivity and Polarization Calculation",
+    "title_cn": "天线波瓣宽度、方向性与极化计算",
+    "description": "An antenna has a radiation pattern function given by $F_\\theta(\\theta,\\phi)=A\\sin^2\\theta\\cos\\phi$. Find the main beam position, the 3 dB beamwidths in the principal planes, and the directivity (in dB) for this antenna. What is the polarization of this antenna?",
+    "description_cn": "某天线辐射方向图函数$F_\\theta(\\theta,\\phi)=A\\sin^2\\theta\\cos\\phi$，求解主波束指向、两个主平面3dB波瓣宽度、dB形式方向性系数，判断天线极化方式。",
+    "parameters": {
+      "pattern_func": {"expression": "$F_\\theta(\\theta,\\phi)=A\\sin^2\\theta\\cos\\phi$", "description": "Antenna far-field amplitude pattern"},
+      "power_pattern": {"expression": "$P(\\theta,\\phi)=A^2\\sin^4\\theta\\cos^2\\phi$", "description": "Normalized power radiation pattern"}
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Main Beam Direction Location",
+        "title_cn": "主波束指向求解",
+        "formula": "\\\\theta=90^\\\\\\circ,\\quad \\\\phi=0^\\\\\\circ",
+        "formula_cn": "\\\\theta=90^\\\\\\circ,\\quad \\\\phi=0^\\\\\\circ",
+        "explanation": "$\\sin^2\\theta$ max at $\\theta=90^\\circ$, $|\\cos\\phi|$ max at $\\phi=0^\\circ$",
+        "explanation_cn": "$\\sin^2\\theta$在$\\theta=90^\\circ$取最大值，$|\\cos\\phi|$在$\\phi=0^\\circ$取最大值"
+      },
+      {
+        "id": 2,
+        "title": "3dB Beamwidth of Principal Planes",
+        "title_cn": "主平面3dB波瓣宽度",
+        "formula": "\\\\text{BW}_{\\\\theta}=65.6^\\\\\\circ,\\quad \\\\text{BW}_{\\\\phi}=90^\\\\\\circ",
+        "formula_cn": "E面波束宽度$\\\\text{BW}_{\\\\theta}=65.6^\\\\\\circ$，H面波束宽度$\\\\text{BW}_{\\\\phi}=90^\\\\\\circ$",
+        "explanation": "3dB threshold satisfies $P/P_{\\text{max}}=0.5$, solve angular range for E-plane($\\phi=0$) and H-plane($\\theta=90^\\circ$)",
+        "explanation_cn": "3dB对应归一化功率0.5，分别在E面($\\phi=0$)、H面($\\theta=90^\\circ$)求解角度区间"
+      },
+      {
+        "id": 3,
+        "title": "Directivity Calculation",
+        "title_cn": "方向性系数计算",
+        "formula": "D=\\\\frac{4\\\\pi|F_{\\\\text{max}}|^2}{\\\\int_0^{2\\\\pi}\\\\int_0^\\\\pi|F|^2\\\\sin\\\\theta d\\\\theta d\\\\phi}=3.75,\\quad D_{\\\\text{dB}}=10\\\\log_{10}(3.75)\\\\approx5.74\\\\ \\text{dB}",
+        "formula_cn": "$D=\\\\frac{4\\\\pi|F_{\\\\text{max}}|^2}{\\\\int_0^{2\\\\pi}\\\\int_0^\\\\pi|F|^2\\\\sin\\\\theta d\\\\theta d\\\\phi}=3.75，D_{\\\\text{dB}}\\\\approx5.74\\\\ \\text{dB}$",
+        "explanation": "Substitute radiation pattern into directivity integral formula and compute",
+        "explanation_cn": "将方向图代入方向性积分公式完成数值求解"
+      },
+      {
+        "id": 4,
+        "title": "Antenna Polarization Property",
+        "title_cn": "天线极化特性",
+        "formula": "\\\\boldsymbol{E}=E_\\\\theta\\\\boldsymbol{e}_\\\\theta,\\quad E_\\\\phi=0",
+        "formula_cn": "辐射场仅含$E_\\\\theta$分量，$E_\\\\phi=0$",
+        "explanation": "Only $E_\\theta$ component exists, the antenna is linearly polarized",
+        "explanation_cn": "仅存在$\\theta$方向电场分量，天线为线极化"
+      }
+    ],
+    "key_concepts": ["Main beam direction", "3dB beamwidth", "Antenna directivity", "Linearly polarization", "Radiation pattern"],
+    "key_concepts_cn": ["主波束指向", "3dB波瓣宽度", "天线方向性系数", "线极化", "辐射方向图"]
+  }
+}

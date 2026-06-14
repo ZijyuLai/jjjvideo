@@ -1,0 +1,124 @@
+{
+  "14.20": {
+    "id": "14.20",
+    "title": "Radiometer Antenna Temperature Sensitivity",
+    "title_cn": "辐射计天线温度灵敏度证明",
+    "description": "Consider the radiometer antenna shown below, where the antenna is at a physical temperature $T_p$ and has a radiation efficiency $\\eta_{\\text{rad}}$, and an impedance mismatch $\\Gamma$ at its terminals. If $T_S$ is the apparent temperature seen by the radiometer, show that $\\Delta T_S / \\Delta T_{\\text{true}}$ is equal to the product of radiation efficiency and mismatch loss, by applying two background temperatures, $T_B = T_p$ and $T_B = T_2 \\neq T_p$.",
+    "description_cn": "考虑下图所示的辐射计天线，天线物理温度为 $T_p$，辐射效率为 $\\eta_{\\text{rad}}$，终端存在阻抗失配 $\\Gamma$。若 $T_S$ 为辐射计测得的表观温度，通过施加两个背景温度 $T_B = T_p$ 和 $T_B = T_2 \\neq T_p$，证明 $\\Delta T_S / \\Delta T_{\\text{true}}$ 等于辐射效率与失配损耗的乘积。",
+    "parameters": {
+      "physical_temperature": {
+        "expression": "$T_p$",
+        "description": "Physical temperature of antenna"
+      },
+      "radiation_efficiency": {
+        "expression": "$\\eta_{\\text{rad}}$",
+        "description": "Antenna radiation efficiency"
+      },
+      "reflection_coefficient": {
+        "expression": "$\\Gamma$",
+        "description": "Voltage reflection coefficient at antenna terminals"
+      },
+      "mismatch_loss": {
+        "expression": "$M = 1 - |\\Gamma|^2$",
+        "description": "Mismatch loss (power transmission coefficient)"
+      },
+      "background_temperature_1": {
+        "expression": "$T_{B1} = T_p$",
+        "description": "First background temperature equal to physical temperature"
+      },
+      "background_temperature_2": {
+        "expression": "$T_{B2} = T_2 \\neq T_p$",
+        "description": "Second background temperature different from physical temperature"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Antenna Output Noise Temperature",
+        "title_cn": "天线输出噪声温度",
+        "formula": "$T_{\\text{ant}} = \\eta_{\\text{rad}} T_B + (1 - \\eta_{\\text{rad}}) T_p$",
+        "formula_cn": "$T_{\\text{ant}} = \\eta_{\\text{rad}} T_B + (1 - \\eta_{\\text{rad}}) T_p$",
+        "explanation": "Lossy antenna noise temperature model",
+        "explanation_cn": "有耗天线噪声温度模型"
+      },
+      {
+        "id": 2,
+        "title": "Effect of Impedance Mismatch",
+        "title_cn": "阻抗失配的影响",
+        "formula": "$T_S = M \\cdot T_{\\text{ant}} = (1 - |\\Gamma|^2) T_{\\text{ant}}$",
+        "formula_cn": "$T_S = M \\cdot T_{\\text{ant}} = (1 - |\\Gamma|^2) T_{\\text{ant}}$",
+        "explanation": "Only fraction M of power is delivered to radiometer",
+        "explanation_cn": "仅 M 部分的功率传递到辐射计"
+      },
+      {
+        "id": 3,
+        "title": "Apparent Temperature for T_B = T_p",
+        "title_cn": "T_B = T_p 时的表观温度",
+        "formula": "$T_{S1} = M [\\eta_{\\text{rad}} T_p + (1 - \\eta_{\\text{rad}}) T_p] = M T_p$",
+        "formula_cn": "$T_{S1} = M [\\eta_{\\text{rad}} T_p + (1 - \\eta_{\\text{rad}}) T_p] = M T_p$",
+        "explanation": "Substitute $T_B = T_p$",
+        "explanation_cn": "代入 $T_B = T_p$"
+      },
+      {
+        "id": 4,
+        "title": "Apparent Temperature for T_B = T_2",
+        "title_cn": "T_B = T_2 时的表观温度",
+        "formula": "$T_{S2} = M [\\eta_{\\text{rad}} T_2 + (1 - \\eta_{\\text{rad}}) T_p]$",
+        "formula_cn": "$T_{S2} = M [\\eta_{\\text{rad}} T_2 + (1 - \\eta_{\\text{rad}}) T_p]$",
+        "explanation": "Substitute $T_B = T_2$",
+        "explanation_cn": "代入 $T_B = T_2$"
+      },
+      {
+        "id": 5,
+        "title": "Change in Apparent Temperature",
+        "title_cn": "表观温度变化",
+        "formula": "$\\Delta T_S = T_{S2} - T_{S1} = M \\eta_{\\text{rad}} (T_2 - T_p)$",
+        "formula_cn": "$\\Delta T_S = T_{S2} - T_{S1} = M \\eta_{\\text{rad}} (T_2 - T_p)$",
+        "explanation": "Subtract and simplify",
+        "explanation_cn": "相减并化简"
+      },
+      {
+        "id": 6,
+        "title": "True Temperature Change",
+        "title_cn": "真实温度变化",
+        "formula": "$\\Delta T_{\\text{true}} = T_2 - T_p$",
+        "formula_cn": "$\\Delta T_{\\text{true}} = T_2 - T_p$",
+        "explanation": "Actual change in background temperature",
+        "explanation_cn": "背景温度的实际变化"
+      },
+      {
+        "id": 7,
+        "title": "Ratio of Changes",
+        "title_cn": "变化量之比",
+        "formula": "$\\frac{\\Delta T_S}{\\Delta T_{\\text{true}}} = \\frac{M \\eta_{\\text{rad}} (T_2 - T_p)}{T_2 - T_p} = M \\cdot \\eta_{\\text{rad}} = \\eta_{\\text{rad}} (1 - |\\Gamma|^2)$",
+        "formula_cn": "$\\frac{\\Delta T_S}{\\Delta T_{\\text{true}}} = \\frac{M \\eta_{\\text{rad}} (T_2 - T_p)}{T_2 - T_p} = M \\cdot \\eta_{\\text{rad}} = \\eta_{\\text{rad}} (1 - |\\Gamma|^2)$",
+        "explanation": "Proved that the ratio equals product of radiation efficiency and mismatch loss",
+        "explanation_cn": "证明该比值等于辐射效率与失配损耗的乘积"
+      }
+    ],
+    "result": {
+      "expression": "$\\frac{\\Delta T_S}{\\Delta T_{\\text{true}}} = \\eta_{\\text{rad}} (1 - |\\Gamma|^2)$",
+      "description": "Sensitivity of radiometer to actual temperature change"
+    },
+    "key_concepts": [
+      "Radiometer",
+      "Antenna noise temperature",
+      "Radiation efficiency",
+      "Impedance mismatch",
+      "Mismatch loss",
+      "Apparent temperature",
+      "Brightness temperature",
+      "Calibration"
+    ],
+    "key_concepts_cn": [
+      "辐射计",
+      "天线噪声温度",
+      "辐射效率",
+      "阻抗失配",
+      "失配损耗",
+      "表观温度",
+      "亮温",
+      "校准"
+    ]
+  }
+}

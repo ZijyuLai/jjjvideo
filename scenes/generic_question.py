@@ -36,6 +36,46 @@ def load_question_from_file(filepath):
     return list(bank.values())[0]
 
 
+def fix_latex(s):
+    """Normalize LaTeX from JSON: strip $ wrappers and fix multi-escaped backslashes."""
+    if not s:
+        return s
+    s = s.strip()
+    # Remove all $ signs (MathTex already in math mode)
+    s = s.replace('$', '')
+    # Fix multi-escaped backslashes: \\\\theta -> \\theta -> \theta
+    while '\\\\' in s:
+        s = s.replace('\\\\', '\\')
+    # Clean up: remove leading/trailing \\ (line breaks at edges look bad)
+    s = s.strip().rstrip('\\').strip()
+    return s
+
+
+def make_mixed_text(text, font_size=22, color=ACCENT_PURPLE, max_width=12.5):
+    """Render text with inline $...$ LaTeX formulas using mixed Text + MathTex."""
+    import re
+    if '$' not in text:
+        return fit(Text(text, font_size=font_size, color=color), max_width=max_width)
+
+    # Split by $...$ delimiters
+    parts = re.split(r'\$(.*?)\$', text)
+    group = VGroup()
+    for i, part in enumerate(parts):
+        if not part:
+            continue
+        if i % 2 == 0:
+            # Plain text
+            t = Text(part, font_size=font_size, color=color)
+        else:
+            # LaTeX formula
+            while '\\\\' in part:
+                part = part.replace('\\\\', '\\')
+            t = MathTex(part, font_size=font_size, color=color, tex_template=TEX)
+        group.add(t)
+    group.arrange(RIGHT, buff=0.12)
+    return fit(group, max_width=max_width)
+
+
 def make_scene_class(json_path, class_name):
     """Dynamically create a Scene class for a given question JSON file."""
 
@@ -79,7 +119,7 @@ def make_scene_class(json_path, class_name):
             step_title.next_to(badge, RIGHT, buff=0.3)
             self.play(FadeIn(badge), Write(step_title))
 
-            formula_tex = step.get("formula", "")
+            formula_tex = fix_latex(step.get("formula", ""))
             if formula_tex:
                 formula = fit(MathTex(formula_tex, font_size=36, color=FORMULA_COLOR, tex_template=TEX))
                 formula.next_to(step_title, DOWN, buff=0.6)
@@ -88,7 +128,7 @@ def make_scene_class(json_path, class_name):
                 self.play(Write(formula, run_time=1.5), Create(box))
 
             if "result" in step:
-                result = fit(MathTex(step["result"], font_size=36, color=HIGHLIGHT_COLOR, tex_template=TEX))
+                result = fit(MathTex(fix_latex(step["result"]), font_size=36, color=HIGHLIGHT_COLOR, tex_template=TEX))
                 result.next_to(box, DOWN, buff=0.5)
                 result.set_x(0)
                 result_box = SurroundingRectangle(result, color=ACCENT_ORANGE, buff=0.2, corner_radius=0.1)
@@ -96,7 +136,7 @@ def make_scene_class(json_path, class_name):
 
             explanation_text = step.get("explanation_cn", step.get("explanation", ""))
             if explanation_text:
-                explanation = fit(Text(explanation_text, font_size=22, color=ACCENT_PURPLE), max_width=12.5)
+                explanation = make_mixed_text(explanation_text, font_size=22, color=ACCENT_PURPLE, max_width=12.5)
                 explanation.to_edge(DOWN, buff=0.8)
                 self.play(FadeIn(explanation))
 
@@ -119,7 +159,7 @@ def make_scene_class(json_path, class_name):
 
             anchor = result_title  # anchor for positioning concepts below
             if summary_formula:
-                final = fit(MathTex(summary_formula, font_size=40, color=HIGHLIGHT_COLOR, tex_template=TEX))
+                final = fit(MathTex(fix_latex(summary_formula), font_size=40, color=HIGHLIGHT_COLOR, tex_template=TEX))
                 final.next_to(result_title, DOWN, buff=0.6)
                 final_box = SurroundingRectangle(final, color=ACCENT_ORANGE, buff=0.3, corner_radius=0.15, stroke_width=2.5)
                 self.play(Write(result_title), Write(final, run_time=1.5), Create(final_box))

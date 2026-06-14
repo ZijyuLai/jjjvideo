@@ -1,0 +1,78 @@
+{
+  "14.16": {
+    "id": "14.16",
+    "title": "Maximum Unambiguous Range of Pulse Radar",
+    "title_cn": "脉冲雷达最大无模糊距离",
+    "description": "A pulse radar has a pulse repetition frequency $f_r = 1/T_r$. Determine the maximum unambiguous range of the radar. (Range ambiguity occurs when the round-trip time of a return pulse is greater than the pulse repetition time, so it becomes unclear as to whether a given return pulse belongs to the last transmitted pulse or some earlier transmitted pulse.)",
+    "description_cn": "一部脉冲雷达的脉冲重复频率为 $f_r = 1/T_r$。确定该雷达的最大无模糊距离。（当回波脉冲的往返时间大于脉冲重复周期时，就会产生距离模糊，因为无法确定某个回波脉冲是属于最近发射的脉冲还是更早发射的脉冲。）",
+    "parameters": {
+      "prf": {
+        "expression": "$f_r = \\frac{1}{T_r}$",
+        "description": "Pulse repetition frequency (PRF)"
+      },
+      "prt": {
+        "expression": "$T_r$",
+        "description": "Pulse repetition time (PRT)"
+      },
+      "speed_of_light": {
+        "expression": "$c \\approx 3 \\times 10^8 \\text{ m/s}$",
+        "description": "Speed of light"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Range Measurement Principle",
+        "title_cn": "距离测量原理",
+        "formula": "$R = \\frac{c \\cdot \\Delta t}{2}$",
+        "formula_cn": "$R = \\frac{c \\cdot \\Delta t}{2}$",
+        "explanation": "Round-trip time $\\Delta t$ corresponds to twice the distance",
+        "explanation_cn": "往返时间 $\\Delta t$ 对应两倍距离"
+      },
+      {
+        "id": 2,
+        "title": "Condition for Unambiguous Range",
+        "title_cn": "无模糊距离的条件",
+        "formula": "$\\Delta t_{\\max} = T_r = \\frac{1}{f_r}$",
+        "formula_cn": "$\\Delta t_{\\max} = T_r = \\frac{1}{f_r}$",
+        "explanation": "To avoid ambiguity, return pulse must arrive before next pulse is transmitted",
+        "explanation_cn": "为避免模糊，回波必须在下一个脉冲发射之前到达"
+      },
+      {
+        "id": 3,
+        "title": "Maximum Unambiguous Range Formula",
+        "title_cn": "最大无模糊距离公式",
+        "formula": "$R_{\\text{unamb}} = \\frac{c \\cdot T_r}{2} = \\frac{c}{2 f_r}$",
+        "formula_cn": "$R_{\\text{unamb}} = \\frac{c \\cdot T_r}{2} = \\frac{c}{2 f_r}$",
+        "explanation": "Substitute maximum round-trip time into range equation",
+        "explanation_cn": "将最大往返时间代入距离公式"
+      }
+    ],
+    "result_equation": {
+      "expression": "$R_{\\text{unamb}} = \\frac{c}{2 f_r}$",
+      "description": "Maximum unambiguous range"
+    },
+    "example": {
+      "expression": "$\\text{For } f_r = 1000 \\text{ Hz}, R_{\\text{unamb}} = \\frac{3 \\times 10^8}{2 \\times 1000} = 150 \\text{ km}$",
+      "description": "Example calculation"
+    },
+    "note": "Range ambiguity occurs when $R > R_{\\text{unamb}}$. Higher PRF reduces unambiguous range but improves update rate. Some radars use PRF staggering to extend unambiguous range.",
+    "note_cn": "当 $R > R_{\\text{unamb}}$ 时产生距离模糊。较高的脉冲重复频率会减小无模糊距离，但能提高更新率。某些雷达采用脉冲重复频率参差技术来扩展无模糊距离。",
+    "key_concepts": [
+      "Pulse radar",
+      "Pulse repetition frequency (PRF)",
+      "Pulse repetition time (PRT)",
+      "Range ambiguity",
+      "Round-trip time",
+      "Unambiguous range"
+    ],
+    "key_concepts_cn": [
+      "脉冲雷达",
+      "脉冲重复频率",
+      "脉冲重复周期",
+      "距离模糊",
+      "往返时间",
+      "无模糊距离"
+    ]
+  }
+}

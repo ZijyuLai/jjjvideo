@@ -1,0 +1,85 @@
+{
+  "14.17": {
+    "id": "14.17",
+    "title": "Doppler Filter Passband for Velocity Detection",
+    "title_cn": "多普勒雷达检测速度范围对应的滤波器通带计算",
+    "description": "A Doppler radar operating at 12 GHz is intended to detect target velocities ranging from 1 to 20 m/sec. What is the required passband of the Doppler filter?",
+    "description_cn": "一部工作频率为 12 GHz 的多普勒雷达，用于检测速度范围为 1 到 20 m/s 的目标。求所需的多普勒滤波器通带宽度。",
+    "parameters": {
+      "frequency": {
+        "expression": "$f = 12 \\text{ GHz} = 12 \\times 10^9 \\text{ Hz}$",
+        "description": "Radar operating frequency"
+      },
+      "velocity_min": {
+        "expression": "$v_{\\min} = 1 \\text{ m/s}$",
+        "description": "Minimum target radial velocity"
+      },
+      "velocity_max": {
+        "expression": "$v_{\\max} = 20 \\text{ m/s}$",
+        "description": "Maximum target radial velocity"
+      },
+      "speed_of_light": {
+        "expression": "$c = 3 \\times 10^8 \\text{ m/s}$",
+        "description": "Speed of light"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{12 \\times 10^9} = 0.025 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{12 \\times 10^9} = 0.025 \\text{ m}$"
+      },
+      {
+        "id": 2,
+        "title": "Doppler Shift Formula",
+        "title_cn": "多普勒频移公式",
+        "formula": "$f_d = \\frac{2v_r}{\\lambda}$",
+        "formula_cn": "$f_d = \\frac{2v_r}{\\lambda}$",
+        "explanation": "Doppler shift for radar (round-trip)",
+        "explanation_cn": "雷达多普勒频移（往返）"
+      },
+      {
+        "id": 3,
+        "title": "Doppler Shifts for Given Velocities",
+        "title_cn": "给定速度对应的多普勒频移",
+        "formula": "$f_{d,\\min} = \\frac{2 \\times 1}{0.025} = 80 \\text{ Hz}$ \\\\ $f_{d,\\max} = \\frac{2 \\times 20}{0.025} = 1600 \\text{ Hz}$",
+        "formula_cn": "$f_{d,\\min} = \\frac{2 \\times 1}{0.025} = 80 \\text{ Hz}$ \\\\ $f_{d,\\max} = \\frac{2 \\times 20}{0.025} = 1600 \\text{ Hz}$"
+      },
+      {
+        "id": 4,
+        "title": "Required Passband",
+        "title_cn": "所需通带宽度",
+        "formula": "$\\Delta f = f_{d,\\max} - f_{d,\\min} = 1600 - 80 = 1520 \\text{ Hz}$",
+        "formula_cn": "$\\Delta f = f_{d,\\max} - f_{d,\\min} = 1600 - 80 = 1520 \\text{ Hz}$",
+        "explanation": "Doppler filter must cover the range from minimum to maximum Doppler shift",
+        "explanation_cn": "多普勒滤波器需覆盖从最小到最大多普勒频移的范围"
+      }
+    ],
+    "result": {
+      "value": "1520 Hz",
+      "expression": "$\\Delta f = 1520 \\text{ Hz}$"
+    },
+    "note": "In practical radar systems, the passband may be slightly wider to account for frequency instabilities and spectral spreading. A filter bank with multiple narrowband filters is typically used to cover this range and resolve velocity.",
+    "note_cn": "在实际雷达系统中，为考虑频率不稳定性和谱展宽，通带可能略宽于此值。通常使用多个窄带滤波器组成的滤波器组来覆盖这一范围并分辨速度。",
+    "key_concepts": [
+      "Doppler radar",
+      "Doppler shift",
+      "Radial velocity",
+      "Wavelength",
+      "Doppler filter",
+      "Passband",
+      "Frequency range"
+    ],
+    "key_concepts_cn": [
+      "多普勒雷达",
+      "多普勒频移",
+      "径向速度",
+      "波长",
+      "多普勒滤波器",
+      "通带",
+      "频率范围"
+    ]
+  }
+}

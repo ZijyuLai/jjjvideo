@@ -1,0 +1,101 @@
+{
+  "14.8": {
+    "id": "14.8",
+    "title": "G/T Calculation for Microstrip Array Antenna and LNB",
+    "title_cn": "微带阵列天线与LNB系统G/T值计算",
+    "description": "Consider the replacement of a DBS dish antenna with a microstrip array antenna. A microstrip array offers an aesthetically pleasing flat profile, but suffers from relatively high dissipative loss in its feed network, which leads to a high noise temperature. If the background noise temperature is $T_B = 50$ K, with an antenna gain of 33.5 dB and a receiver LNB noise figure of 1.1 dB, find the overall $G/T$ for the microstrip array antenna and the LNB if the array has a total loss of 2.5 dB. Assume the antenna is at a physical temperature of 290 K.",
+    "description_cn": "考虑用微带阵列天线替代 DBS 抛物面天线。微带阵列具有美观的扁平外形，但其馈电网络中的较高耗散损耗会导致较高的噪声温度。若背景噪声温度为 $T_B = 50$ K，天线增益为 33.5 dB，接收机 LNB 的噪声系数为 1.1 dB，且微带阵列的总损耗为 2.5 dB，求微带阵列天线与 LNB 组成的系统的总 $G/T$ 值。假设天线的物理温度为 290 K。",
+    "parameters": {
+      "background_temperature": {
+        "expression": "$T_B = 50 \\text{ K}$",
+        "description": "Background noise temperature"
+      },
+      "antenna_gain_dB": {
+        "expression": "$G_{\\text{rad}} = 33.5 \\text{ dB}$",
+        "value_linear": "2238.72",
+        "description": "Antenna radiation gain"
+      },
+      "lnb_noise_figure": {
+        "expression": "$NF = 1.1 \\text{ dB}$",
+        "value_linear": "1.288",
+        "description": "LNB noise figure"
+      },
+      "antenna_loss": {
+        "expression": "$L_{\\text{ant}} = 2.5 \\text{ dB}$",
+        "value_linear": "1.7783",
+        "description": "Total loss of microstrip array (feed network etc.)"
+      },
+      "physical_temperature": {
+        "expression": "$T_p = 290 \\text{ K}$",
+        "description": "Physical temperature of antenna"
+      },
+      "reference_temperature": {
+        "expression": "$T_0 = 290 \\text{ K}$",
+        "description": "Standard reference temperature for noise figure"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Convert Gains and Losses to Linear Scale",
+        "title_cn": "增益与损耗转换为线性值",
+        "formula": "$G_{\\text{rad}} = 10^{33.5/10} = 10^{3.35} \\approx 2238.72$ \\\\ $L_{\\text{ant}} = 10^{2.5/10} = 10^{0.25} \\approx 1.7783$ \\\\ $G_{\\text{ant}} = \\frac{G_{\\text{rad}}}{L_{\\text{ant}}} = 10^{(33.5-2.5)/10} = 10^{31/10} \\approx 1258.9$",
+        "formula_cn": "$G_{\\text{rad}} = 10^{33.5/10} = 10^{3.35} \\approx 2238.72$ \\\\ $L_{\\text{ant}} = 10^{2.5/10} = 10^{0.25} \\approx 1.7783$ \\\\ $G_{\\text{ant}} = \\frac{G_{\\text{rad}}}{L_{\\text{ant}}} = 10^{(33.5-2.5)/10} = 10^{31/10} \\approx 1258.9$",
+        "explanation": "Convert dB values to linear scale using $10^{(\\text{dB}/10)}$",
+        "explanation_cn": "使用 $10^{(\\text{dB}/10)}$ 将 dB 值转换为线性值"
+      },
+      {
+        "id": 2,
+        "title": "Antenna Noise Temperature",
+        "title_cn": "天线噪声温度计算",
+        "formula": "$\\eta = \\frac{1}{L_{\\text{ant}}} = \\frac{1}{1.7783} \\approx 0.5623$ \\\\ $T_{\\text{ant}} = \\eta T_B + (1-\\eta) T_p$ \\\\ $T_{\\text{ant}} = 0.5623 \\times 50 + 0.4377 \\times 290 \\approx 28.115 + 126.933 \\approx 155.05 \\text{ K}$",
+        "formula_cn": "$\\eta = \\frac{1}{L_{\\text{ant}}} = \\frac{1}{1.7783} \\approx 0.5623$ \\\\ $T_{\\text{ant}} = \\eta T_B + (1-\\eta) T_p$ \\\\ $T_{\\text{ant}} = 0.5623 \\times 50 + 0.4377 \\times 290 \\approx 28.115 + 126.933 \\approx 155.05 \\text{ K}$",
+        "explanation": "Lossy antenna noise temperature formula",
+        "explanation_cn": "有耗天线噪声温度公式"
+      },
+      {
+        "id": 3,
+        "title": "LNB Noise Temperature",
+        "title_cn": "LNB噪声温度计算",
+        "formula": "$F = 10^{1.1/10} = 10^{0.11} \\approx 1.288$ \\\\ $T_{\\text{LNB}} = (F - 1) T_0 = (1.288 - 1) \\times 290 \\approx 83.52 \\text{ K}$",
+        "formula_cn": "$F = 10^{1.1/10} = 10^{0.11} \\approx 1.288$ \\\\ $T_{\\text{LNB}} = (F - 1) T_0 = (1.288 - 1) \\times 290 \\approx 83.52 \\text{ K}$",
+        "explanation": "Noise figure to noise temperature conversion",
+        "explanation_cn": "噪声系数到噪声温度的转换"
+      },
+      {
+        "id": 4,
+        "title": "System Noise Temperature",
+        "title_cn": "系统总噪声温度",
+        "formula": "$T_{\\text{sys}} = T_{\\text{ant}} + T_{\\text{LNB}} \\approx 155.05 + 83.52 \\approx 238.57 \\text{ K}$",
+        "formula_cn": "$T_{\\text{sys}} = T_{\\text{ant}} + T_{\\text{LNB}} \\approx 155.05 + 83.52 \\approx 238.57 \\text{ K}$",
+        "explanation": "Cascade noise temperature (LNB directly connected to antenna output, antenna loss included in $T_{\\text{ant}}$)",
+        "explanation_cn": "级联噪声温度（LNB 直接接天线输出端，天线损耗已包含在 $T_{\\text{ant}}$ 中）"
+      },
+      {
+        "id": 5,
+        "title": "Calculate G/T",
+        "title_cn": "计算 G/T 值",
+        "formula": "$\\frac{G}{T} = \\frac{G_{\\text{ant}}}{T_{\\text{sys}}} = \\frac{1258.9}{238.57} \\approx 5.276 \\text{ K}^{-1}$ \\\\ $\\left(\\frac{G}{T}\\right)_{\\text{dB}} = 10 \\log_{10}(5.276) \\approx 7.22 \\text{ dB}$",
+        "formula_cn": "$\\frac{G}{T} = \\frac{G_{\\text{ant}}}{T_{\\text{sys}}} = \\frac{1258.9}{238.57} \\approx 5.276 \\text{ K}^{-1}$ \\\\ $\\left(\\frac{G}{T}\\right)_{\\text{dB}} = 10 \\log_{10}(5.276) \\approx 7.22 \\text{ dB}$",
+        "explanation": "G/T ratio in linear and dB scale",
+        "explanation_cn": "G/T 比的线性值与 dB 值"
+      }
+    ],
+    "key_concepts": [
+      "G/T ratio",
+      "Antenna noise temperature",
+      "Lossy antenna",
+      "LNB noise figure",
+      "System noise temperature",
+      "Microstrip array antenna"
+    ],
+    "key_concepts_cn": [
+      "G/T 值",
+      "天线噪声温度",
+      "有耗天线",
+      "LNB 噪声系数",
+      "系统噪声温度",
+      "微带阵列天线"
+    ]
+  }
+}

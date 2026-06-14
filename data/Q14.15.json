@@ -1,0 +1,108 @@
+{
+  "14.15": {
+    "id": "14.15",
+    "title": "Bistatic Radar Equation Derivation",
+    "title_cn": "双基地雷达方程推导",
+    "description": "Derive the radar equation for the bistatic case where the transmit and receive antennas have gains of $G_t$ and $G_r$, and are at distances $R_t$ and $R_r$ from the target, respectively.",
+    "description_cn": "推导双基地雷达方程，其中发射天线增益为 $G_t$，接收天线增益为 $G_r$，它们到目标的距离分别为 $R_t$ 和 $R_r$。",
+    "parameters": {
+      "transmit_power": {
+        "expression": "$P_t$",
+        "description": "Transmitted power"
+      },
+      "transmit_antenna_gain": {
+        "expression": "$G_t$",
+        "description": "Transmit antenna gain"
+      },
+      "receive_antenna_gain": {
+        "expression": "$G_r$",
+        "description": "Receive antenna gain"
+      },
+      "transmit_distance": {
+        "expression": "$R_t$",
+        "description": "Distance from transmitter to target"
+      },
+      "receive_distance": {
+        "expression": "$R_r$",
+        "description": "Distance from target to receiver"
+      },
+      "radar_cross_section": {
+        "expression": "$\\sigma$",
+        "description": "Bistatic radar cross section (RCS) of target"
+      },
+      "wavelength": {
+        "expression": "$\\lambda$",
+        "description": "Operating wavelength"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Power Density at Target",
+        "title_cn": "目标处的功率密度",
+        "formula": "$S_t = \\frac{P_t G_t}{4\\pi R_t^2}$",
+        "formula_cn": "$S_t = \\frac{P_t G_t}{4\\pi R_t^2}$",
+        "explanation": "Power density from transmit antenna at distance $R_t$",
+        "explanation_cn": "发射天线在距离 $R_t$ 处的功率密度"
+      },
+      {
+        "id": 2,
+        "title": "Power Intercepted and Scattered by Target",
+        "title_cn": "目标截获并散射的功率",
+        "formula": "$P_{\\text{scat}} = S_t \\cdot \\sigma = \\frac{P_t G_t \\sigma}{4\\pi R_t^2}$",
+        "formula_cn": "$P_{\\text{scat}} = S_t \\cdot \\sigma = \\frac{P_t G_t \\sigma}{4\\pi R_t^2}$",
+        "explanation": "Radar cross section $\\sigma$ relates incident power density to scattered power (isotropic equivalent)",
+        "explanation_cn": "雷达散射截面 $\\sigma$ 将入射功率密度与等效各向同性散射功率相关联"
+      },
+      {
+        "id": 3,
+        "title": "Power Density at Receiver Location",
+        "title_cn": "接收机位置处的功率密度",
+        "formula": "$S_r = \\frac{P_{\\text{scat}}}{4\\pi R_r^2} = \\frac{P_t G_t \\sigma}{(4\\pi)^2 R_t^2 R_r^2}$",
+        "formula_cn": "$S_r = \\frac{P_{\\text{scat}}}{4\\pi R_r^2} = \\frac{P_t G_t \\sigma}{(4\\pi)^2 R_t^2 R_r^2}$",
+        "explanation": "Scattered power spreads isotropically from target to receiver distance $R_r$",
+        "explanation_cn": "散射功率从目标向接收机各向同性传播，距离为 $R_r$"
+      },
+      {
+        "id": 4,
+        "title": "Effective Aperture of Receive Antenna",
+        "title_cn": "接收天线有效孔径",
+        "formula": "$A_{\\text{eff},r} = \\frac{\\lambda^2}{4\\pi} G_r$",
+        "formula_cn": "$A_{\\text{eff},r} = \\frac{\\lambda^2}{4\\pi} G_r$",
+        "explanation": "Relationship between antenna gain and effective area",
+        "explanation_cn": "天线增益与有效面积的关系"
+      },
+      {
+        "id": 5,
+        "title": "Received Power",
+        "title_cn": "接收功率",
+        "formula": "$P_r = S_r \\cdot A_{\\text{eff},r} = \\frac{P_t G_t \\sigma}{(4\\pi)^2 R_t^2 R_r^2} \\cdot \\frac{\\lambda^2}{4\\pi} G_r$ \\\\ $P_r = \\frac{P_t G_t G_r \\lambda^2 \\sigma}{(4\\pi)^3 R_t^2 R_r^2}$",
+        "formula_cn": "$P_r = S_r \\cdot A_{\\text{eff},r} = \\frac{P_t G_t \\sigma}{(4\\pi)^2 R_t^2 R_r^2} \\cdot \\frac{\\lambda^2}{4\\pi} G_r$ \\\\ $P_r = \\frac{P_t G_t G_r \\lambda^2 \\sigma}{(4\\pi)^3 R_t^2 R_r^2}$",
+        "explanation": "Bistatic radar equation",
+        "explanation_cn": "双基地雷达方程"
+      }
+    ],
+    "result_equation": {
+      "expression": "$P_r = \\frac{P_t G_t G_r \\lambda^2 \\sigma}{(4\\pi)^3 R_t^2 R_r^2}$",
+      "description": "Bistatic radar equation"
+    },
+    "note": "For monostatic radar, $R_t = R_r = R$ and $G_t = G_r = G$, giving $P_r = \\frac{P_t G^2 \\lambda^2 \\sigma}{(4\\pi)^3 R^4}$.",
+    "note_cn": "对于单基地雷达，$R_t = R_r = R$ 且 $G_t = G_r = G$，得到 $P_r = \\frac{P_t G^2 \\lambda^2 \\sigma}{(4\\pi)^3 R^4}$。",
+    "key_concepts": [
+      "Bistatic radar",
+      "Radar cross section (RCS)",
+      "Friis transmission formula",
+      "Effective aperture",
+      "Power density",
+      "Radar equation"
+    ],
+    "key_concepts_cn": [
+      "双基地雷达",
+      "雷达散射截面",
+      "弗里斯传输公式",
+      "有效口径",
+      "功率密度",
+      "雷达方程"
+    ]
+  }
+}

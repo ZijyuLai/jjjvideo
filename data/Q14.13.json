@@ -1,0 +1,113 @@
+{
+  "14.13": {
+    "id": "14.13",
+    "title": "Maximum Distance for Receiving Earth TV Signals in Space",
+    "title_cn": "地球电视信号在太空中可接收的最大距离计算",
+    "description": "A key premise in many science fiction stories is the idea that radio and TV signals from Earth can travel through space and be received by listeners in another star system. Show that this is a fallacy by calculating the maximum distance from Earth where a signal could be received with a SNR of 0 dB. Specifically, assume TV channel 4, broadcasting at 67 MHz, with a 4 MHz bandwidth, a transmitter power of 1000 W, transmit and receive antenna gains of 4 dB, a cosmic background noise temperature of 4 K, and a perfectly noiseless receiver. How much would this distance decrease if an SNR of 30 dB is required at the receiver? (30 dB is a typical value for good reception of an analog video signal.) Relate these distances to the nearest planet in our solar system.",
+    "description_cn": "许多科幻故事中的一个关键前提是，地球上的无线电和电视信号可以穿越太空，被另一个恒星系统中的听众接收到。通过计算从地球出发信号能够以 0 dB 信噪比被接收的最大距离，证明这是一个谬论。具体假设：电视频道 4，广播频率 67 MHz，带宽 4 MHz，发射功率 1000 W，发射和接收天线增益均为 4 dB，宇宙背景噪声温度为 4 K，且接收机为完全无噪声接收机。如果接收端要求 30 dB 的信噪比（这是模拟视频信号良好接收的典型值），这个距离会减小多少？将这些距离与太阳系中最近的行星联系起来。",
+    "parameters": {
+      "frequency": {
+        "expression": "$f = 67 \\text{ MHz} = 6.7 \\times 10^7 \\text{ Hz}$",
+        "description": "TV channel 4 frequency"
+      },
+      "bandwidth": {
+        "expression": "$B = 4 \\text{ MHz} = 4 \\times 10^6 \\text{ Hz}$",
+        "description": "Signal bandwidth"
+      },
+      "transmit_power": {
+        "expression": "$P_t = 1000 \\text{ W}$",
+        "description": "Transmitter power"
+      },
+      "antenna_gain": {
+        "expression": "$G_t = G_r = 4 \\text{ dB} \\approx 2.5119$",
+        "description": "Transmit and receive antenna gains"
+      },
+      "noise_temperature": {
+        "expression": "$T = 4 \\text{ K}$",
+        "description": "Cosmic background noise temperature"
+      },
+      "boltzmann_constant": {
+        "expression": "$k = 1.38 \\times 10^{-23} \\text{ J/K}$",
+        "description": "Boltzmann constant"
+      },
+      "speed_of_light": {
+        "expression": "$c = 3 \\times 10^8 \\text{ m/s}$",
+        "description": "Speed of light"
+      },
+      "SNR0_dB": {
+        "expression": "$\\text{SNR}_1 = 0 \\text{ dB} = 1$",
+        "description": "Minimum detectable signal"
+      },
+      "SNR30_dB": {
+        "expression": "$\\text{SNR}_2 = 30 \\text{ dB} = 1000$",
+        "description": "Good analog TV reception"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{6.7 \\times 10^7} \\approx 4.4776 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{6.7 \\times 10^7} \\approx 4.4776 \\text{ m}$"
+      },
+      {
+        "id": 2,
+        "title": "Noise Power Calculation",
+        "title_cn": "噪声功率计算",
+        "formula": "$P_n = kTB = 1.38 \\times 10^{-23} \\times 4 \\times (4 \\times 10^6) = 2.208 \\times 10^{-16} \\text{ W}$",
+        "formula_cn": "$P_n = kTB = 1.38 \\times 10^{-23} \\times 4 \\times (4 \\times 10^6) = 2.208 \\times 10^{-16} \\text{ W}$"
+      },
+      {
+        "id": 3,
+        "title": "Derive Range Formula for SNR = 1",
+        "title_cn": "SNR = 1 时的距离公式推导",
+        "formula": "$P_r = P_t G_t G_r \\left(\\frac{\\lambda}{4\\pi R}\\right)^2 = kTB$ \\\\ $R = \\frac{\\lambda}{4\\pi} \\sqrt{\\frac{P_t G_t G_r}{kTB}}$",
+        "formula_cn": "$P_r = P_t G_t G_r \\left(\\frac{\\lambda}{4\\pi R}\\right)^2 = kTB$ \\\\ $R = \\frac{\\lambda}{4\\pi} \\sqrt{\\frac{P_t G_t G_r}{kTB}}$"
+      },
+      {
+        "id": 4,
+        "title": "Calculate R for SNR = 0 dB",
+        "title_cn": "计算 SNR = 0 dB 时的距离",
+        "formula": "$\\sqrt{\\frac{P_t G_t G_r}{kTB}} \\approx 5.344 \\times 10^9$ \\\\ $\\frac{\\lambda}{4\\pi} \\approx 0.3563$ \\\\ $R \\approx 0.3563 \\times 5.344 \\times 10^9 \\approx 1.904 \\times 10^9 \\text{ m} \\approx 1.90 \\times 10^6 \\text{ km} \\approx 0.0127 \\text{ AU}$",
+        "formula_cn": "$\\sqrt{\\frac{P_t G_t G_r}{kTB}} \\approx 5.344 \\times 10^9$ \\\\ $\\frac{\\lambda}{4\\pi} \\approx 0.3563$ \\\\ $R \\approx 0.3563 \\times 5.344 \\times 10^9 \\approx 1.904 \\times 10^9 \\text{ m} \\approx 1.90 \\times 10^6 \\text{ km} \\approx 0.0127 \\text{ AU}$"
+      },
+      {
+        "id": 5,
+        "title": "Calculate R for SNR = 30 dB",
+        "title_cn": "计算 SNR = 30 dB 时的距离",
+        "formula": "$R_{30} = R_0 / \\sqrt{1000} \\approx 1.904 \\times 10^9 / 31.62 \\approx 6.02 \\times 10^7 \\text{ m} = 6.02 \\times 10^4 \\text{ km} \\approx 0.000402 \\text{ AU}$",
+        "formula_cn": "$R_{30} = R_0 / \\sqrt{1000} \\approx 1.904 \\times 10^9 / 31.62 \\approx 6.02 \\times 10^7 \\text{ m} = 6.02 \\times 10^4 \\text{ km} \\approx 0.000402 \\text{ AU}$"
+      },
+      {
+        "id": 6,
+        "title": "Comparison with Planetary Distances",
+        "title_cn": "与行星距离比较",
+        "formula": "Mercury distance from Sun: $\\approx 0.387$ AU \\\\ Earth-Mercury min distance: $\\approx 0.52$ AU \\\\ Earth-Moon distance: $\\approx 3.84 \\times 10^5$ km \\\\ $R_{0\\text{dB}} \\approx 0.0127$ AU $\\ll$ Earth-planet distances \\\\ $R_{30\\text{dB}} \\approx 6.0 \\times 10^4$ km $<$ Earth-Moon distance ($3.84 \\times 10^5$ km)",
+        "formula_cn": "水星距太阳：$\\approx 0.387$ AU \\\\ 地-水星最近距离：$\\approx 0.52$ AU \\\\ 地-月距离：$\\approx 3.84 \\times 10^5$ km \\\\ $R_{0\\text{dB}} \\approx 0.0127$ AU $\\ll$ 地球到行星距离 \\\\ $R_{30\\text{dB}} \\approx 6.0 \\times 10^4$ km $<$ 地-月距离 ($3.84 \\times 10^5$ km)"
+      }
+    ],
+    "conclusion": "Even at the theoretical limit of SNR=0 dB, the maximum range is only ~0.0127 AU (~1.9 million km), far less than the distance to any planet in our solar system. For good reception (SNR=30 dB), the range drops to ~60,000 km, which is less than the Earth-Moon distance. Thus, interstellar reception of Earth TV signals is physically impossible.",
+    "conclusion_cn": "即使在理论极限 SNR=0 dB 时，最大距离也仅为约 0.0127 AU（约 190 万公里），远小于地球到太阳系任何行星的距离。对于良好接收（SNR=30 dB），距离降至约 6 万公里，小于地月距离。因此，星际接收地球电视信号在物理上是不可能的。",
+    "key_concepts": [
+      "Free-space path loss",
+      "Friis transmission equation",
+      "SNR",
+      "Thermal noise",
+      "Cosmic background noise",
+      "Noiseless receiver",
+      "Astronomical unit (AU)",
+      "TV broadcast"
+    ],
+    "key_concepts_cn": [
+      "自由空间路径损耗",
+      "弗里斯传输公式",
+      "信噪比",
+      "热噪声",
+      "宇宙背景噪声",
+      "无噪声接收机",
+      "天文单位",
+      "电视广播"
+    ]
+  }
+}

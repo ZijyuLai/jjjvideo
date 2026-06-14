@@ -1,0 +1,97 @@
+{
+  "14.18": {
+    "id": "14.18",
+    "title": "Radar Transmitter-Receiver Isolation Requirement",
+    "title_cn": "雷达发射机-接收机隔离度要求计算",
+    "description": "A pulse radar operates at 2 GHz and has a per-pulse power of 1 kW. If it is to be used to detect a target with $\\sigma = 20 \\text{ m}^2$ at a range of 10 km, what should be the minimum isolation between the transmitter and receiver so that the leakage signal from the transmitter is at least 10 dB below the received signal? Assume an antenna gain of 30 dB.",
+    "description_cn": "一部脉冲雷达工作频率为 2 GHz，每个脉冲的功率为 1 kW。若要用它探测距离 10 km 处、雷达散射截面 $\\sigma = 20 \\text{ m}^2$ 的目标，则发射机与接收机之间的最小隔离度应为多少，才能使发射机泄漏信号至少比接收信号低 10 dB？假设天线增益为 30 dB。",
+    "parameters": {
+      "frequency": {
+        "expression": "$f = 2 \\text{ GHz} = 2 \\times 10^9 \\text{ Hz}$",
+        "description": "Radar operating frequency"
+      },
+      "transmit_power": {
+        "expression": "$P_t = 1 \\text{ kW} = 1000 \\text{ W}$",
+        "description": "Transmit power per pulse"
+      },
+      "rcs": {
+        "expression": "$\\sigma = 20 \\text{ m}^2$",
+        "description": "Radar cross section of target"
+      },
+      "range": {
+        "expression": "$R = 10 \\text{ km} = 10^4 \\text{ m}$",
+        "description": "Distance to target"
+      },
+      "antenna_gain": {
+        "expression": "$G = 30 \\text{ dB} = 1000$",
+        "description": "Antenna gain (same for transmit and receive)"
+      },
+      "margin": {
+        "expression": "$\\text{Margin} = 10 \\text{ dB}$",
+        "description": "Leakage must be at least 10 dB below received signal"
+      },
+      "speed_of_light": {
+        "expression": "$c = 3 \\times 10^8 \\text{ m/s}$",
+        "description": "Speed of light"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Wavelength Calculation",
+        "title_cn": "波长计算",
+        "formula": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{2 \\times 10^9} = 0.15 \\text{ m}$",
+        "formula_cn": "$\\lambda = \\frac{c}{f} = \\frac{3 \\times 10^8}{2 \\times 10^9} = 0.15 \\text{ m}$"
+      },
+      {
+        "id": 2,
+        "title": "Received Power from Target (Monostatic Radar Equation)",
+        "title_cn": "目标回波接收功率（单基地雷达方程）",
+        "formula": "$P_r = \\frac{P_t G^2 \\lambda^2 \\sigma}{(4\\pi)^3 R^4}$ \\\\ $P_r = \\frac{1000 \\times (1000)^2 \\times (0.15)^2 \\times 20}{(4\\pi)^3 \\times (10^4)^4}$ \\\\ $P_r \\approx 2.268 \\times 10^{-11} \\text{ W}$",
+        "formula_cn": "$P_r = \\frac{P_t G^2 \\lambda^2 \\sigma}{(4\\pi)^3 R^4}$ \\\\ $P_r = \\frac{1000 \\times (1000)^2 \\times (0.15)^2 \\times 20}{(4\\pi)^3 \\times (10^4)^4}$ \\\\ $P_r \\approx 2.268 \\times 10^{-11} \\text{ W}$"
+      },
+      {
+        "id": 3,
+        "title": "Maximum Allowable Leakage Power",
+        "title_cn": "最大允许泄漏功率",
+        "formula": "$P_{\\text{leak,max}} = P_r \\times 10^{-10/10} = P_r \\times 0.1 \\approx 2.268 \\times 10^{-12} \\text{ W}$",
+        "formula_cn": "$P_{\\text{leak,max}} = P_r \\times 10^{-10/10} = P_r \\times 0.1 \\approx 2.268 \\times 10^{-12} \\text{ W}$",
+        "explanation": "Leakage must be at least 10 dB below received signal",
+        "explanation_cn": "泄漏信号至少比接收信号低 10 dB"
+      },
+      {
+        "id": 4,
+        "title": "Minimum Isolation Required",
+        "title_cn": "所需最小隔离度",
+        "formula": "$I_{\\min} = 10 \\log_{10}\\left(\\frac{P_t}{P_{\\text{leak,max}}}\\right) = 10 \\log_{10}\\left(\\frac{1000}{2.268 \\times 10^{-12}}\\right)$ \\\\ $I_{\\min} \\approx 10 \\log_{10}(4.409 \\times 10^{14}) \\approx 146.4 \\text{ dB}$",
+        "formula_cn": "$I_{\\min} = 10 \\log_{10}\\left(\\frac{P_t}{P_{\\text{leak,max}}}\\right) = 10 \\log_{10}\\left(\\frac{1000}{2.268 \\times 10^{-12}}\\right)$ \\\\ $I_{\\min} \\approx 10 \\log_{10}(4.409 \\times 10^{14}) \\approx 146.4 \\text{ dB}$",
+        "explanation": "Isolation in dB is ratio of transmit power to leakage power",
+        "explanation_cn": "隔离度（dB）为发射功率与泄漏功率之比"
+      }
+    ],
+    "result": {
+      "value": "146.4 dB",
+      "expression": "$I_{\\min} \\approx 146.4 \\text{ dB}$"
+    },
+    "note": "This isolation requirement is very high and typically achieved through a combination of circulator isolation, duplexer design, and possibly additional filtering and blanking techniques.",
+    "note_cn": "这一隔离度要求非常高，通常通过环行器隔离、双工器设计以及可能的附加滤波和消隐技术共同实现。",
+    "key_concepts": [
+      "Pulse radar",
+      "Monostatic radar equation",
+      "Radar cross section (RCS)",
+      "Transmitter-receiver isolation",
+      "Leakage signal",
+      "Circulator",
+      "Duplexer"
+    ],
+    "key_concepts_cn": [
+      "脉冲雷达",
+      "单基地雷达方程",
+      "雷达散射截面",
+      "发射机-接收机隔离度",
+      "泄漏信号",
+      "环行器",
+      "双工器"
+    ]
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "14.19": {
+    "id": "14.19",
+    "title": "Monostatic RCS of Shorted Antenna",
+    "title_cn": "短路天线单基地雷达散射截面",
+    "description": "An antenna having a gain $G$ is shorted at its terminals. What is the minimum monostatic radar cross section in the direction of the main beam?",
+    "description_cn": "一个增益为 $G$ 的天线，其终端被短路。求在主波束方向上的最小单基地雷达散射截面。",
+    "parameters": {
+      "antenna_gain": {
+        "expression": "$G$",
+        "description": "Antenna gain (dimensionless linear value)"
+      },
+      "wavelength": {
+        "expression": "$\\lambda$",
+        "description": "Operating wavelength"
+      }
+    },
+    "steps": [
+      {
+        "id": 1,
+        "title": "Antenna Effective Area",
+        "title_cn": "天线有效口径",
+        "formula": "$A_e = \\frac{\\lambda^2}{4\\pi} G$",
+        "formula_cn": "$A_e = \\frac{\\lambda^2}{4\\pi} G$",
+        "explanation": "Relationship between gain and effective aperture",
+        "explanation_cn": "增益与有效口径的关系"
+      },
+      {
+        "id": 2,
+        "title": "Power Received by Antenna",
+        "title_cn": "天线接收功率",
+        "formula": "$P_{\\text{rec}} = S_i A_e$",
+        "formula_cn": "$P_{\\text{rec}} = S_i A_e$",
+        "explanation": "$S_i$ is incident power density",
+        "explanation_cn": "$S_i$ 为入射功率密度"
+      },
+      {
+        "id": 3,
+        "title": "Power Reradiated (Short Circuit Case)",
+        "title_cn": "再辐射功率（短路情况）",
+        "formula": "$P_{\\text{rerad}} = P_{\\text{rec}}$",
+        "formula_cn": "$P_{\\text{rerad}} = P_{\\text{rec}}$",
+        "explanation": "With shorted terminals, all received power is reflected and reradiated (lossless antenna assumed)",
+        "explanation_cn": "终端短路时，所有接收功率被反射并再辐射（假设天线无耗）"
+      },
+      {
+        "id": 4,
+        "title": "Reradiated Power Density in Backscatter Direction",
+        "title_cn": "后向散射方向的再辐射功率密度",
+        "formula": "$S_{\\text{scat}} = \\frac{P_{\\text{rec}} G}{4\\pi R^2}$",
+        "formula_cn": "$S_{\\text{scat}} = \\frac{P_{\\text{rec}} G}{4\\pi R^2}$",
+        "explanation": "Antenna reradiates with gain $G$ in the direction of incidence due to reciprocity",
+        "explanation_cn": "由于互易性，天线在入射方向以增益 $G$ 再辐射"
+      },
+      {
+        "id": 5,
+        "title": "Relation to Radar Cross Section",
+        "title_cn": "与雷达散射截面的关系",
+        "formula": "$S_{\\text{scat}} = \\frac{S_i \\sigma}{4\\pi R^2}$",
+        "formula_cn": "$S_{\\text{scat}} = \\frac{S_i \\sigma}{4\\pi R^2}$",
+        "explanation": "Definition of monostatic RCS",
+        "explanation_cn": "单基地 RCS 定义"
+      },
+      {
+        "id": 6,
+        "title": "Solve for RCS",
+        "title_cn": "求解 RCS",
+        "formula": "$\\frac{P_{\\text{rec}} G}{4\\pi R^2} = \\frac{S_i \\sigma}{4\\pi R^2}$ \\\\ $\\sigma = \\frac{P_{\\text{rec}} G}{S_i} = A_e G = \\frac{\\lambda^2}{4\\pi} G^2$",
+        "formula_cn": "$\\frac{P_{\\text{rec}} G}{4\\pi R^2} = \\frac{S_i \\sigma}{4\\pi R^2}$ \\\\ $\\sigma = \\frac{P_{\\text{rec}} G}{S_i} = A_e G = \\frac{\\lambda^2}{4\\pi} G^2$"
+      }
+    ],
+    "result": {
+      "expression": "$\\sigma = \\frac{\\lambda^2 G^2}{4\\pi}$",
+      "description": "Minimum monostatic RCS of shorted antenna in main beam direction"
+    },
+    "note": "This is the antenna mode RCS for a short-circuited lossless antenna. For a matched load, the reradiated power is absorbed, resulting in a much smaller RCS (only structural term). A short circuit maximizes the antenna mode RCS in the main beam direction.",
+    "note_cn": "这是无耗短路天线的天线模式 RCS。对于匹配负载，再辐射功率被吸收，RCS 小得多（仅结构项）。短路使主波束方向的天线模式 RCS 最大化。",
+    "key_concepts": [
+      "Radar cross section (RCS)",
+      "Antenna gain",
+      "Effective aperture",
+      "Shorted antenna",
+      "Antenna mode scattering",
+      "Structural mode scattering",
+      "Monostatic RCS"
+    ],
+    "key_concepts_cn": [
+      "雷达散射截面",
+      "天线增益",
+      "有效口径",
+      "短路天线",
+      "天线模式散射",
+      "结构模式散射",
+      "单基地 RCS"
+    ]
+  }
+}
